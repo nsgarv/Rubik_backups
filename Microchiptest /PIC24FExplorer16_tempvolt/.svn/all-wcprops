@@ -1,0 +1,191 @@
+K 25
+svn:wc:ra_dav:version-url
+V 132
+/svn/amad/!svn/ver/23154/Demo%20Boards/Explorer%2016/Explorer%2016%20CD/Explorer%2016%20Development%20Board/PIC24F%20Code%20Examples
+END
+buttons.c
+K 25
+svn:wc:ra_dav:version-url
+V 142
+/svn/amad/!svn/ver/13710/Demo%20Boards/Explorer%2016/Explorer%2016%20CD/Explorer%2016%20Development%20Board/PIC24F%20Code%20Examples/buttons.c
+END
+buttons.h
+K 25
+svn:wc:ra_dav:version-url
+V 142
+/svn/amad/!svn/ver/13710/Demo%20Boards/Explorer%2016/Explorer%2016%20CD/Explorer%2016%20Development%20Board/PIC24F%20Code%20Examples/buttons.h
+END
+PIC24ExplDemo.mcp
+K 25
+svn:wc:ra_dav:version-url
+V 150
+/svn/amad/!svn/ver/23060/Demo%20Boards/Explorer%2016/Explorer%2016%20CD/Explorer%2016%20Development%20Board/PIC24F%20Code%20Examples/PIC24ExplDemo.mcp
+END
+PIC24ExplDemo.c
+K 25
+svn:wc:ra_dav:version-url
+V 148
+/svn/amad/!svn/ver/27451/Demo%20Boards/Explorer%2016/Explorer%2016%20CD/Explorer%2016%20Development%20Board/PIC24F%20Code%20Examples/PIC24ExplDemo.c
+END
+LEDstart.c
+K 25
+svn:wc:ra_dav:version-url
+V 143
+/svn/amad/!svn/ver/18468/Demo%20Boards/Explorer%2016/Explorer%2016%20CD/Explorer%2016%20Development%20Board/PIC24F%20Code%20Examples/LEDstart.c
+END
+spimpol.c
+K 25
+svn:wc:ra_dav:version-url
+V 140
+/svn/amad/!svn/ver/921/Demo%20Boards/Explorer%2016/Explorer%2016%20CD/Explorer%2016%20Development%20Board/PIC24F%20Code%20Examples/spimpol.c
+END
+PIC24ExplDemo.mcw
+K 25
+svn:wc:ra_dav:version-url
+V 150
+/svn/amad/!svn/ver/27451/Demo%20Boards/Explorer%2016/Explorer%2016%20CD/Explorer%2016%20Development%20Board/PIC24F%20Code%20Examples/PIC24ExplDemo.mcw
+END
+iomapping.c
+K 25
+svn:wc:ra_dav:version-url
+V 144
+/svn/amad/!svn/ver/23060/Demo%20Boards/Explorer%2016/Explorer%2016%20CD/Explorer%2016%20Development%20Board/PIC24F%20Code%20Examples/iomapping.c
+END
+LEDstart.h
+K 25
+svn:wc:ra_dav:version-url
+V 143
+/svn/amad/!svn/ver/18468/Demo%20Boards/Explorer%2016/Explorer%2016%20CD/Explorer%2016%20Development%20Board/PIC24F%20Code%20Examples/LEDstart.h
+END
+eeprom.c
+K 25
+svn:wc:ra_dav:version-url
+V 140
+/svn/amad/!svn/ver/6498/Demo%20Boards/Explorer%2016/Explorer%2016%20CD/Explorer%2016%20Development%20Board/PIC24F%20Code%20Examples/eeprom.c
+END
+spimpol.h
+K 25
+svn:wc:ra_dav:version-url
+V 142
+/svn/amad/!svn/ver/18468/Demo%20Boards/Explorer%2016/Explorer%2016%20CD/Explorer%2016%20Development%20Board/PIC24F%20Code%20Examples/spimpol.h
+END
+iomapping.h
+K 25
+svn:wc:ra_dav:version-url
+V 144
+/svn/amad/!svn/ver/23060/Demo%20Boards/Explorer%2016/Explorer%2016%20CD/Explorer%2016%20Development%20Board/PIC24F%20Code%20Examples/iomapping.h
+END
+tbanner.c
+K 25
+svn:wc:ra_dav:version-url
+V 141
+/svn/amad/!svn/ver/6498/Demo%20Boards/Explorer%2016/Explorer%2016%20CD/Explorer%2016%20Development%20Board/PIC24F%20Code%20Examples/tbanner.c
+END
+system.h
+K 25
+svn:wc:ra_dav:version-url
+V 141
+/svn/amad/!svn/ver/18468/Demo%20Boards/Explorer%2016/Explorer%2016%20CD/Explorer%2016%20Development%20Board/PIC24F%20Code%20Examples/system.h
+END
+vbanner.c
+K 25
+svn:wc:ra_dav:version-url
+V 140
+/svn/amad/!svn/ver/154/Demo%20Boards/Explorer%2016/Explorer%2016%20CD/Explorer%2016%20Development%20Board/PIC24F%20Code%20Examples/vbanner.c
+END
+rtcc.c
+K 25
+svn:wc:ra_dav:version-url
+V 139
+/svn/amad/!svn/ver/23154/Demo%20Boards/Explorer%2016/Explorer%2016%20CD/Explorer%2016%20Development%20Board/PIC24F%20Code%20Examples/rtcc.c
+END
+eeprom.h
+K 25
+svn:wc:ra_dav:version-url
+V 140
+/svn/amad/!svn/ver/6498/Demo%20Boards/Explorer%2016/Explorer%2016%20CD/Explorer%2016%20Development%20Board/PIC24F%20Code%20Examples/eeprom.h
+END
+uart2.c
+K 25
+svn:wc:ra_dav:version-url
+V 138
+/svn/amad/!svn/ver/154/Demo%20Boards/Explorer%2016/Explorer%2016%20CD/Explorer%2016%20Development%20Board/PIC24F%20Code%20Examples/uart2.c
+END
+tbanner.h
+K 25
+svn:wc:ra_dav:version-url
+V 141
+/svn/amad/!svn/ver/6498/Demo%20Boards/Explorer%2016/Explorer%2016%20CD/Explorer%2016%20Development%20Board/PIC24F%20Code%20Examples/tbanner.h
+END
+rtcc.h
+K 25
+svn:wc:ra_dav:version-url
+V 139
+/svn/amad/!svn/ver/23154/Demo%20Boards/Explorer%2016/Explorer%2016%20CD/Explorer%2016%20Development%20Board/PIC24F%20Code%20Examples/rtcc.h
+END
+vbanner.h
+K 25
+svn:wc:ra_dav:version-url
+V 141
+/svn/amad/!svn/ver/6498/Demo%20Boards/Explorer%2016/Explorer%2016%20CD/Explorer%2016%20Development%20Board/PIC24F%20Code%20Examples/vbanner.h
+END
+lcd.c
+K 25
+svn:wc:ra_dav:version-url
+V 138
+/svn/amad/!svn/ver/23060/Demo%20Boards/Explorer%2016/Explorer%2016%20CD/Explorer%2016%20Development%20Board/PIC24F%20Code%20Examples/lcd.c
+END
+uart2.h
+K 25
+svn:wc:ra_dav:version-url
+V 139
+/svn/amad/!svn/ver/6498/Demo%20Boards/Explorer%2016/Explorer%2016%20CD/Explorer%2016%20Development%20Board/PIC24F%20Code%20Examples/uart2.h
+END
+banner.c
+K 25
+svn:wc:ra_dav:version-url
+V 141
+/svn/amad/!svn/ver/23060/Demo%20Boards/Explorer%2016/Explorer%2016%20CD/Explorer%2016%20Development%20Board/PIC24F%20Code%20Examples/banner.c
+END
+lcd.h
+K 25
+svn:wc:ra_dav:version-url
+V 138
+/svn/amad/!svn/ver/18468/Demo%20Boards/Explorer%2016/Explorer%2016%20CD/Explorer%2016%20Development%20Board/PIC24F%20Code%20Examples/lcd.h
+END
+banner.h
+K 25
+svn:wc:ra_dav:version-url
+V 140
+/svn/amad/!svn/ver/6498/Demo%20Boards/Explorer%2016/Explorer%2016%20CD/Explorer%2016%20Development%20Board/PIC24F%20Code%20Examples/banner.h
+END
+CleanUp.bat
+K 25
+svn:wc:ra_dav:version-url
+V 142
+/svn/amad/!svn/ver/154/Demo%20Boards/Explorer%2016/Explorer%2016%20CD/Explorer%2016%20Development%20Board/PIC24F%20Code%20Examples/CleanUp.bat
+END
+timer.c
+K 25
+svn:wc:ra_dav:version-url
+V 138
+/svn/amad/!svn/ver/154/Demo%20Boards/Explorer%2016/Explorer%2016%20CD/Explorer%2016%20Development%20Board/PIC24F%20Code%20Examples/timer.c
+END
+timer.h
+K 25
+svn:wc:ra_dav:version-url
+V 139
+/svn/amad/!svn/ver/6498/Demo%20Boards/Explorer%2016/Explorer%2016%20CD/Explorer%2016%20Development%20Board/PIC24F%20Code%20Examples/timer.h
+END
+adc.c
+K 25
+svn:wc:ra_dav:version-url
+V 138
+/svn/amad/!svn/ver/23060/Demo%20Boards/Explorer%2016/Explorer%2016%20CD/Explorer%2016%20Development%20Board/PIC24F%20Code%20Examples/adc.c
+END
+adc.h
+K 25
+svn:wc:ra_dav:version-url
+V 138
+/svn/amad/!svn/ver/18468/Demo%20Boards/Explorer%2016/Explorer%2016%20CD/Explorer%2016%20Development%20Board/PIC24F%20Code%20Examples/adc.h
+END
