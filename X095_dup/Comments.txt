@@ -1,0 +1,52 @@
+Comments: 
+Hello Jim 
+I would like to clarify about our Compiler line and offering. 
+The XC16 is an extension of the MPLAB C30 Compiler, with bug fixes to the C30 Compiler and a robust license manager. In other words, XC16 is the MPLAB C30 Compiler renamed and re-branded, so as to streamline our Compiler offering (XC8 Compiler for 8-bit, XC16 Compiler for 16-bit and the XC32 Compiler for 32-bit devices). 
+XC16 Compiler supports Microchip 16-bit devices (PIC24, dsPIC30F, dsPIC33F and dsPIC33E), and is a full-featured ANSI compliant C compiler.
+The HI-TECH DSPICC Compiler is a different Compiler than the C30 / XC16. This Compiler was developed by HI-TECH, which was acquired by Microchip. 
+Codes written with the HI-TECH DSPICC Compiler will not Compile with the XC16 Compiler. You will have to do changes to the DSPICC Code to make it built with the XC16 Compiler, as there are syntactical differences between the 2 compilers.
+
+I build the Code with MPLAB X IDE and XC16 v1.11 and there were many errors occurring in the code. 
+Changes that are required to the code are as:
+1. The extension of c files is .c and not .C
+
+2. The extension of h files is .h and not .H
+
+3. Change the extension of these files and re-add to the project. 
+
+4. Change all references to htc.h with xc.h
+
+5. Replace all occurences of far with __far
+
+6. Replace all occurences of __CONFIG with #pragma config setting_xx = state_yy | value_yy
+
+7. Replace all occurences of thse symbols to what is in the device header file 
+BWRPU & BSSNB & NORBS,
+SWRPU & SSSNS,
+GWRU & GCPU,
+IESOEN & TEMPDIS & OSC,
+CLKSWEN & OSC2OUT & POSCXT, //IOL1WAY = 0
+WDTDIS,
+PWRT128
+
+8. Replace all occurrences of flash_read_word with the equivalent functions in XC16 
+These can be found under the file :
+<Compiler directory>/docs/hlpLib30.chm 
+Search flash and you will see the flash read, write and erase routines. 
+
+9. Replace all occurrences of LATG15 with the equivalent symbol as indicated by the header file
+
+10. Replace all occurrences of LATD4, LATD5, LATC3, LATA3, LATD3, LATD0, LATD1, LATD2, RG14, LATA0, LATC4
+with the equivalent symbol as indicated by the header file
+
+11. Replace all occurrences of LATD4, LATD5, LATC3, LATA3, LATD3, LATD0, LATD1, LATD2, RG14, LATA0, LATC4
+LATC4, LATC3, LATA0, LATA2, LATA12, LATA13, LATC4, LATA1, LATC3, LATA0, LATC3, LATA2, 
+with the equivalent symbol as indicated by the header file
+
+12. Replace all occurrences of #asm .... #endasm with the asm("instruction");
+The asm() statement may be used to insert assembly code in-line with C code.
+
+13. Replace all occurrences of DMA1IF, AD1CON_SAMP, AD1CON_CONV, MI2C1IF, I2C1_SEN, I2C1_ACKSTAT, I2C1_PEN, I2C1_RSEN, I2C1_RCEN, I2C1_ACKDT, I2C1_ACKEN,
+with the equivalent symbols in the header file
+
+14. Correct any other errors occurring in the code, to an equivalent directive, symbol in the XC16
