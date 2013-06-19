@@ -22,8 +22,11 @@
 *     testing during verification.
 *
 *******************************************************************************/
-
+#include <stdio.h>
+#include <string.h>
+#include "dfine.h"
 #include <xc.h>
+
 
 // set the configuration bits
 
@@ -31,55 +34,64 @@
 // BWRPU   Boot segment may be written
 // BSSNB   No boot program Flash segment
 // NORBS   No Boot RAM defined
+//#pragma config(FBS, BWRPU & BSSNB & NORBS);
 
-#pragma config(FBS, BWRPU & BSSNB & NORBS);
+ #pragma config BWRP = WRPROTECT_ON, BSS = NO_FLASH, BSS = NO_BOOT_CODE
 
 // FSS     Secure Segment Configuration Word
 // SWRPU   Secure segment may be written
 // SSSNS   No secure program Flash segment
+//#pragma config(FSS, SWRPU & SSSNS);
 
-#pragma config(FSS, SWRPU & SSSNS);
+#pragma config SWRP = WRPROTECT_OFF
 
 // FGS     General Code Segment Configuration
 // GWRU    User Program Memory Write Unprotected
 // GCPU    User Program Memory Code Unprotected
+//#pragma config(FGS, GWRU & GCPU);
 
-#pragma config(FGS, GWRU & GCPU);
+#pragma config GSS = WRPROTECT_OFF, GSS = OFF
 
 // FOSCSEL Oscillator Two-Speed Startup, Temperature Protection and
 //         Initial Oscillator Source Selection
 // IESOEN  Two-speed Oscillator Start-up Enabled
 // TEMPDIS Temperature Protection Disabled
 // OSC     Primary (XT, HS, EC) oscillator
-
-#pragma config(FOSCSEL, IESOEN & TEMPDIS & OSC);
+//#pragma config(FOSCSEL, IESOEN & TEMPDIS & OSC);
+/**************************/
+#pragma config IESO = IESOEN & TEMPDIS & OSC
 
 // FOSC     Oscillator Clock Switching Modes, OSC2 Pin Function and Primary Oscillator Modes
 // CLKSWEN  Clock switching is enabled, Fail-Safe Clock Monitor is disabled
 // OSC2OUT  OSC2 is clock output
 // POSCXT   XT Crystal Oscillator mode
+//#pragma config(FOSC, CLKSWEN & OSC2OUT & POSCXT);
 
-#pragma config(FOSC, CLKSWEN & OSC2OUT & POSCXT);
+#pragma config FOSC = CLKSWEN & OSC2OUT & POSCXT
 
 // FWDT     Watchdog Timer
 // WDTDIS   Watchdog Timer enabled/disabled by user software
+//#pragma config(FWDT, WDTDIS);
 
-#pragma config(FWDT, WDTDIS);
+#pragma config FWDT = WDTDIS
 
 // FPOR     Motor Control and Power-on Reset Timer Value
 // PWRT128  128 ms Power-on Reset Timer Value
+//#pragma config(FPOR, PWRT128);
 
-#pragma config(FPOR, PWRT128);
+#pragma config FPOR = PWRT128
 
 // set PGC/PGD pair to 2 (vs 1, 3 or 4) - only debug lines supported by this hw
 //
 // FICD     ICD Config Word
 // JTAGDIS  JTAG port is disabled
 // ICS2     Communicate on PGC2/EMUC2 and PGD2/EMU2
+//#pragma config(FICD, JTAGDIS & ICS2);
 
-#pragma config(FICD, JTAGDIS & ICS2);
+#pragma config FICD = JTAGDIS & ICS2
 
-									// expected data in config registers for POST
+// expected data in config registers for POST
+/*
 static const unsigned char config_data[7] = {	0xCF & BWRPU & BSSNB & NORBS,
 						0xCF & SWRPU & SSSNS,
 						0x07 & GWRU & GCPU,
@@ -87,11 +99,7 @@ static const unsigned char config_data[7] = {	0xCF & BWRPU & BSSNB & NORBS,
 						0xC7 & CLKSWEN & OSC2OUT & POSCXT, //IOL1WAY = 0
 						0xDF & WDTDIS,
 						0xE7 & PWRT128};		 // ALTI2C = 0, bit 5 - 7 = 1
-#include "dfine.h"
-#include <stdio.h>
-#include <string.h>
-
-
+*/
 /* local function prototypes */
 static U16 DAC_ADC_test(void);      /* DAC to RF ADC test */
 static U8 wait_for_i2c(void);			/* wait for I2C1 master interrupt flag */
@@ -518,20 +526,19 @@ U16 read_SPI_ADC(U8 nextinput)              // read SPI ADC ~50 us at 300 kHz cl
 {											// have to supply next input number
 	U16 data;
 
-	LATD4 = 1;								// cs mux high to receive serial bits
-	LATD5 = 1;								// cs ADC high for safety
-	LATD5 = 0;								// cs ADC low for start convert
-	LATD5 = 0;								// wait a little to shift data
-	LATD5 = 0;
-	LATD5 = 0;
-	LATD5 = 0;
+	_LATD4 = 1;								// cs mux high to receive serial bits
+	_LATD5 = 1;								// cs ADC high for safety
+	_LATD5 = 0;								// cs ADC low for start convert
+	_LATD5 = 0;								// wait a little to shift data
+	_LATD5 = 0;
+	_LATD5 = 0;
+	_LATD5 = 0;
 	data = SPI1BUF;							// clean up buffer for safety
 	SPI1BUF = SPI1BUF = nextinput | 0x8;	// shift out next address
-	while (!SPI1_RBF)
-		;									// wait for data back
+	while (! _SPIRBF);									// wait for data back
 	data = (SPI1BUF >> 2) & 0x0FFF;         // clean up read data bits
-	LATD5 = 1;								// cs ADC high
-	LATD4 = 0;								// cs mux low to latch bits
+	_LATD5 = 1;								// cs ADC high
+	_LATD4 = 0;								// cs mux low to latch bits
 	return data;
 }
 /*****************************************************************************
@@ -558,49 +565,49 @@ void read_RF_ADC(S16 data[])              // read RF ADC, four values
 	U8 tmp, i = 0;
 	S16 adcdata;
 
-	LATC3 = 1;			// make sure no write
+	_LATC3 = 1;			// make sure no write
 	TRISE = ~0x0000;	// turn off outputs
 	LATA &= ~0x001F;    // clear address bits for low DAC
-	LATA3 = 1;			// adress A2D low
+	_LATA3 = 1;			// adress A2D low
 
 	do {
-		LATD3 = 1;			// ADC CONV = 1
-		LATD0 = (i > 1);	// ADC A0 = 0/1
-		LATD1 = 1;			// ADC CS = 1
+		_LATD3 = 1;			// ADC CONV = 1
+		_LATD0 = (i > 1);	// ADC A0 = 0/1
+		_LATD1 = 1;			// ADC CS = 1
 		for (tmp = 0; tmp < 10; tmp++)
-		LATD2 = 1;			// ADC RD = 1 + 500 ns delay
-		LATD3 = 0;			// ADC CONV = 0 ; start convert
-		LATD3 = 0;			// ADC CONV = 0 ; start convert
-		LATD3 = 1;			// ADC CONV = 1
-		LATD3 = 1;			// ADC CONV = 1
-		LATD3 = 1;			// ADC CONV = 1
-		LATD3 = 1;			// ADC CONV = 1
-		LATD3 = 1;			// ADC CONV = 1
-		LATD3 = 1;			// ADC CONV = 1
+		_LATD2 = 1;			// ADC RD = 1 + 500 ns delay
+		_LATD3 = 0;			// ADC CONV = 0 ; start convert
+		_LATD3 = 0;			// ADC CONV = 0 ; start convert
+		_LATD3 = 1;			// ADC CONV = 1
+		_LATD3 = 1;			// ADC CONV = 1
+		_LATD3 = 1;			// ADC CONV = 1
+		_LATD3 = 1;			// ADC CONV = 1
+		_LATD3 = 1;			// ADC CONV = 1
+		_LATD3 = 1;			// ADC CONV = 1
 
-		while (RG14)
+		while (_RG14)
 			;
-		LATD1 = 0;			// ADC CS = 0
+		_LATD1 = 0;			// ADC CS = 0
 		do {
-			LATD2 = 0;			// ADC RD = 0
+			_LATD2 = 0;			// ADC RD = 0
 
-			LATA0 = 0;			// adress lo DAC
-			LATC4 = 0;			// PLD Read
-			LATC4 = 0;
-			LATC4 = 0;
+			_LATA0 = 0;			// adress lo DAC
+			_LATC4 = 0;			// PLD Read
+			_LATC4 = 0;
+			_LATC4 = 0;
 			adcdata = PORTE & 0x00FF;
-			LATA0 = 1;			// adress hi DAC
-			LATA0 = 1;			// adress hi DAC
+			_LATA0 = 1;			// adress hi DAC
+			_LATA0 = 1;			// adress hi DAC
 	 		adcdata |= (PORTE & 0x3F) << 8;
-			LATD2 = 1;			// ADC RD = 1
+			_LATD2 = 1;			// ADC RD = 1
 			if (adcdata & 0x2000) // fix sign
 				adcdata |= 0xC000;
 			data[i] = adcdata - RF_ADC_OFFSET; // subtract some offset
 		} while (++i & 1);
-		LATD1 = 1;			// ADC CS = 1
+		_LATD1 = 1;			// ADC CS = 1
 	} while ( i < 4);
 
-	LATC4 = 1;
+	_LATC4 = 1;
 }
 /*****************************************************************************
 * NAME:  write_DAC()
@@ -624,21 +631,21 @@ void read_RF_ADC(S16 data[])              // read RF ADC, four values
 *****************************************************************************/
 void write_DAC(U16 data, U8 control)  // write DAC and control byte
 {
-	LATC4 = 1;			// make sure no read
+	_LATC4 = 1;			// make sure no read
 	LATA &= ~0x001F;    // clear address bits for low DAC
 	LATE = data;		// high byte is ignored
 	TRISE = ~0x00FF;	// turn on outputs
-	LATC3 = 0;
-	LATC3 = 1;
-	LATA0 = 1;			// adress hi DAC
+	_LATC3 = 0;
+	_LATC3 = 1;
+	_LATA0 = 1;			// adress hi DAC
 	LATE = data >> 8;		// low byte
-	LATC3 = 0;
-	LATC3 = 1;
-	LATA0 = 0;			// adress control byte
-	LATA2 = 1;			// adress control byte
+	_LATC3 = 0;
+	_LATC3 = 1;
+	_LATA0 = 0;			// adress control byte
+	_LATA2 = 1;			// adress control byte
 	LATE = control;		// control byte
-	LATC3 = 0;
-	LATC3 = 1;
+	_LATC3 = 0;
+	_LATC3 = 1;
 
 }
 /*****************************************************************************
@@ -659,22 +666,22 @@ void write_DAC(U16 data, U8 control)  // write DAC and control byte
 *****************************************************************************/
 void tone_gen(U16 freq, U8 mode)          // set beep frequency and mode
 {
-	LATA12 = 0;			// beep hi off
-	LATA13 = 0;			// beep lo off
-	LATC4 = 1;			// make sure no read
+	_LATA12 = 0;			// beep hi off
+	_LATA13 = 0;			// beep lo off
+	_LATC4 = 1;			// make sure no read
 	LATA &= ~0x001F;    // clear address bits for low DAC
-	LATA1 = 1;			// sel 0x02; low beep period
+	_LATA1 = 1;			// sel 0x02; low beep period
 	freq = (U16)(12000000L / (U32)freq);
 	LATE = freq;		// high byte is ignored
 	TRISE = ~0x00FF;	// turn on outputs
-	LATC3 = 0;
-	LATC3 = 1;
-	LATA0 = 1;			// adress hi DAC
+	_LATC3 = 0;
+	_LATC3 = 1;
+	_LATA0 = 1;			// adress hi DAC
 	LATE = freq >> 8;		// low byte
-	LATC3 = 0;
-	LATC3 = 1;
-	LATA13 = ((mode & BEEP_VOLUMEC) != 0); 	// Volume controlled beep
-	LATA12 = ((mode & BEEP_HIGH) != 0);		// No volume hi fault beep
+	_LATC3 = 0;
+	_LATC3 = 1;
+	_LATA13 = ((mode & BEEP_VOLUMEC) != 0); 	// Volume controlled beep
+	_LATA12 = ((mode & BEEP_HIGH) != 0);		// No volume hi fault beep
 }
 /*****************************************************************************
 * Tone Generation System.
@@ -809,14 +816,14 @@ U16 get_switches(void)              // read switches and debounce
 	static U16 oldhandswitches = 0;
 	U16 handswitches, frontpanelswitches, newswitches;
 
-	LATC3 = 1;          // make sure no write
+	_LATC3 = 1;          // make sure no write
 	TRISE = ~0x0000;	// turn off outputs
 	LATA &= ~0x001F;    // clear address bits
-	LATA2 = 1;			// sel 0x06; switches
-	LATA1 = 1;
-	LATC4 = 0;			// PLD Read
-	LATC4 = 0;
-	LATC4 = 0;
+	_LATA2 = 1;			// sel 0x06; switches
+	_LATA1 = 1;
+	_LATC4 = 0;			// PLD Read
+	_LATC4 = 0;
+	_LATC4 = 0;
 
    // ENTER_BUTTON, STOP_BUTTON, MODE_BUTTON value 0 - not available.
    // REMIX_BUTTON also known as RESET_BUTTON
@@ -825,7 +832,7 @@ U16 get_switches(void)              // read switches and debounce
    // frontpanelswitches &= (RESET_BUTTON | UP_BUTTON | DN_BUTTON);
    frontpanelswitches = ~PORTE & (ENTER_BUTTON | REMIX_BUTTON | STOP_BUTTON | MODE_BUTTON | UP_BUTTON | DN_BUTTON);
 
-   LATC4 = 1;
+   _LATC4 = 1;
 	newswitches = (~PORTF << 8);				// hand switches
 	recorded_buttons |= (frontpanelswitches | ((newswitches & (RFON_BUTTON | MOTOR_BUTTON)) >> 4));
 	newswitches &= RFON_BUTTON;					// ignore motor button
@@ -893,17 +900,17 @@ U16 get_raw_switches(void)              // read switches, no debounce
 {
 	U16 handswitches, frontpanelswitches;
 
-	LATC3 = 1;           // make sure no write
+	_LATC3 = 1;           // make sure no write
 	TRISE = ~0x0000;	// turn off outputs
 	LATA &= ~0x001F;    // clear address bits
-	LATA2 = 1;			// sel 0x06; switches
-	LATA1 = 1;
-	LATC4 = 0;			// PLD Read
-	LATC4 = 0;
-	LATC4 = 0;
+	_LATA2 = 1;			// sel 0x06; switches
+	_LATA1 = 1;
+	_LATC4 = 0;			// PLD Read
+	_LATC4 = 0;
+	_LATC4 = 0;
 	frontpanelswitches = ~PORTE & 0x007F;
 	handswitches = (~PORTF & 3) << 8;
-	LATC4 = 1;
+	_LATC4 = 1;
 	return handswitches | frontpanelswitches;  	// Max 7 switches
 }
 /*****************************************************************************
@@ -926,18 +933,18 @@ U8 get_status(void)              // read status bits from CPLD
 {
 	U8 data;
 
-	LATC3 = 1;          // make sure no write
+	_LATC3 = 1;          // make sure no write
 	TRISE = ~0x0000;	// turn off outputs
 	LATA &= ~0x001F;    // clear address bits
-	LATA2 = 1;			// sel 0x07; status
-	LATA1 = 1;
-	LATA0 = 1;
-	LATC4 = 0;			// PLD Read
-	LATC4 = 0;
-	LATC4 = 0;
-	LATC4 = 0;
+	_LATA2 = 1;			// sel 0x07; status
+	_LATA1 = 1;
+	_LATA0 = 1;
+	_LATC4 = 0;			// PLD Read
+	_LATC4 = 0;
+	_LATC4 = 0;
+	_LATC4 = 0;
 	data = PORTE;		// Max 8 bits
-	LATC4 = 1;
+	_LATC4 = 1;
 	return data ^ 0x07;	// invert switches
 }
 /*****************************************************************************
@@ -957,14 +964,14 @@ U8 get_status(void)              // read status bits from CPLD
 *****************************************************************************/
 void write_LEDs(U8 bits)		// write LEDs
 {								// D0 = green; D1 = red; D2 = blue
-	LATC4 = 1;          // make sure no read
+	_LATC4 = 1;          // make sure no read
 	LATA &= ~0x001F;    // clear address bits for low DAC
-	LATA2 = 1;			// sel 0x05; LEDs
-	LATA0 = 1;
+	_LATA2 = 1;			// sel 0x05; LEDs
+	_LATA0 = 1;
 	LATE = bits;		// high byte is ignored
 	TRISE = ~0x00FF;	// turn on outputs
-	LATC3 = 0;			// write pulse
-	LATC3 = 1;
+	_LATC3 = 0;			// write pulse
+	_LATC3 = 1;
 }
 /*****************************************************************************
 * NAME:  hw_init()
@@ -998,29 +1005,29 @@ void hw_init(void)				// intialize chip hardware
 	// set the PLL multiplier to 40  ((((8 MHz / 2) * 40) / 2) / 2)
 	PLLFBD = 38;
 	// now unlock OSCCON and switch to the external clock
-#asm
-	mov.b #OSC_EXT_PLL, w0
-	mov #OSCCON_H, w1; point to the high byte
-	mov #OSC_UNLOCK_H1, w2; first unlock code
-	mov #OSC_UNLOCK_H2, w3; second unlock code
-	mov.b w2, [w1]; unlock OSCCON high byte
-	mov.b w3, [w1]
-	mov.b w0, [w1]; write the new clock configuration
+//#asm
+	asm("mov.b #OSC_EXT_PLL, w0");
+	asm("mov #OSCCON_H w1");// point to the high byte
+	asm("mov #OSC_UNLOCK_H1, w2"); //first unlock code
+	asm("mov #OSC_UNLOCK_H2, w3"); //second unlock code
+	asm("mov.b w2, [w1]"); //unlock OSCCON high byte
+	asm("mov.b w3, [w1]");
+	asm("mov.b w0, [w1]"); //write the new clock configuration
 
-	mov #OSCCON_L, w1; point to the low byte
-	mov #OSC_UNLOCK_L1, w2; first unlock code
-	mov #OSC_UNLOCK_L2, w3; second unlock code
-	mov.b w2, [w1]; unlock OSCCON low byte
-	mov.b w3, [w1]
-	bset.b OSCCON_L, #OSC_OSWEN; enable the clock switch
-#endasm
+	asm("mov #OSCCON_L, w1"); //point to the low byte
+	asm("mov #OSC_UNLOCK_L1, w2"); //first unlock code
+	asm("mov #OSC_UNLOCK_L2, w3"); //second unlock code
+	asm("mov.b w2, [w1]"); //unlock OSCCON low byte
+	asm("mov.b w3, [w1]");
+	asm("bset.b OSCCON_L, #OSC_OSWEN"); //enable the clock switch
+//#endasm
 	// now wait for PLL lock
-	while (!LOCK)
+	while (!OSCCONbits.LOCK)
 		;
 
 	// determine analog input, 1 = digital, 0 = analog
 	AD1PCFGH = ~0x00C0; // 23,22 analog
-	AD1PCFGL = AD2PCFG = ~0x00DF; // 7,6,4,3,2,1,0 analog
+	AD1PCFGL = AD2PCFGL = ~0x00DF; // 7,6,4,3,2,1,0 analog
 
 	// port A
 	LATA = 0x0000;   // Initialize all low
@@ -1058,13 +1065,13 @@ void hw_init(void)				// intialize chip hardware
 	T1CON = 0x0020;    // prescale / 64
 	PR1 = (12500 - 1); // divide 40 MHz by 12500 * 64 = 50 Hz
 	TMR1 = 0;
-	T1IF = 0;
-	T1ON = 1;
+	_T1IF = 0;
+	T1CONbits.TON = 1;
 
-	INT4EP = 0;        // INT4 is used for display
-	INT4IP2 = 0;       // INT4 low priority
-	INT4IP1 = 0;
-	INT4IP0 = 1;
+	_INT4EP = 0;        // INT4 is used for display
+	_INT4IP2 = 0;       // INT4 low priority
+	_INT4IP1 = 0;
+	_INT4IP0 = 1;
 
 	// SPI 1
 	SPI1CON1 = 0x0538; // 16-bit, pos edge out, master, 312 kHz
@@ -1112,10 +1119,10 @@ void hw_init(void)				// intialize chip hardware
 	DMA1CON = 0x4000; // DMA off, byte, from peripheral, continous (circular buffer)
 	DMA1REQ = 0x000B; // UART1RX
 	DMA1PAD = 0x0226; // U1RXREG
-	DMA1_CHEN = 0;
+	DMA1CONbits.CHEN = 0;
 	DMA1STA = RX1DMABUF - DMARAM; // DMA RAM address offset 100
 	DMA1CNT = RX1DMABUFSIZ - 1; // 16 chars max, circular buffer
-	DMA1IF = 0;		  // clear flag
+	_DMA1IF = 0;		  // clear flag
 
 	// DMA for SPI2
 	DMA4CON = 0x6001; // DMA off, byte, to peripheral, one shot
@@ -1143,10 +1150,11 @@ void hw_init(void)				// intialize chip hardware
 U16 get_ADC(U8 ch)			// get analog signal converted to 12 bits
 {							// conversion time is ~2.5 us
 	AD1CHS0 = ch;
-	AD1CON_SAMP = 1;
-	while (AD1CON_SAMP)		// wait for sample period
+	_SAMP = 1;
+	while (_SAMP)		// wait for sample period
 		;
-	while (!AD1CON_CONV)	// wait for conversion
+        /* Not sure about this was _CONV */
+	while (! _DONE)	// wait for conversion
 		;
 	return (ADC1BUF0);
 }
@@ -1168,13 +1176,14 @@ U16 get_ADC(U8 ch)			// get analog signal converted to 12 bits
 *    0 if succesful, -1 if failure
 *
 *****************************************************************************/
+//#define I2C1CONbits.SEN _SEN
 S16 read_eeprom (U32 adr, U8 *bp, U8 cnt)	      // read bytes from EEPROM
 {
    // clear interupt flag
-   MI2C1IF = 0;
+   _MI2C1IF = 0;
 
    // initiate start event
-   I2C1_SEN = 1;
+   I2C1CONbits.SEN = 1;
    // wait for done
    if (wait_for_i2c() == 0)
    {
@@ -1210,10 +1219,12 @@ S16 read_eeprom (U32 adr, U8 *bp, U8 cnt)	      // read bytes from EEPROM
       return -2;
    }
    // make sure ACK status is 0
-   if (I2C1_ACKSTAT)
+   //if (I2C1_ACKSTAT)
+   if (I2C1STATbits.ACKSTAT)
    {
       // no ACK - initiate stop event and return err
-      I2C1_PEN = 1;
+      //I2C1_PEN = 1;
+       I2C1CONbits.PEN = 1;
       return -3;
 	}
 
@@ -1226,10 +1237,12 @@ S16 read_eeprom (U32 adr, U8 *bp, U8 cnt)	      // read bytes from EEPROM
       return -4;
    }
    // make sure ACK status is 0
-   if (I2C1_ACKSTAT)
+   //if (I2C1_ACKSTAT)
+   if (I2C1STATbits.ACKSTAT)
    {
       // no ACK - initiate stop event and return err
-      I2C1_PEN = 1;
+      //I2C1_PEN = 1;
+      I2C1CONbits.PEN = 1;
       return -5;
    }
 
@@ -1242,14 +1255,17 @@ S16 read_eeprom (U32 adr, U8 *bp, U8 cnt)	      // read bytes from EEPROM
       return -6;
    }
    // make sure ACK status is 0
-   if (I2C1_ACKSTAT)
+   //if (I2C1_ACKSTAT)
+   if(I2C1STATbits.ACKSTAT)
    {
       // no ACK - initiate stop event and return err
-      I2C1_PEN = 1;
+      //I2C1_PEN = 1;
+      I2C1CONbits.PEN = 1;
       return -7;
    }
 
-   I2C1_RSEN = 1;		// initiate repeat start
+   //I2C1_RSEN = 1;		// initiate repeat start
+   I2C1CONbits.RSEN = 1;
    // wait for done
    if (wait_for_i2c() == 0)
    {
@@ -1275,17 +1291,20 @@ S16 read_eeprom (U32 adr, U8 *bp, U8 cnt)	      // read bytes from EEPROM
       return -9;
    }
    // make sure ACK status is 0
-   if (I2C1_ACKSTAT)
+   //if (I2C1_ACKSTAT)
+   if(I2C1STATbits.ACKSTAT)
    {
       // no ACK - initiate stop event and return err
-      I2C1_PEN = 1;
+      //I2C1_PEN = 1
+      I2C1CONbits.PEN = 1;
       return -10;
    }
 
    // loop through and pick up all data
    while (cnt--)
    {
-		I2C1_RCEN = 1;		// enable receive
+		//I2C1_RCEN = 1;		// enable receive
+                I2C1CONbits.RCEN = 1;
       // wait for done
       if (wait_for_i2c() == 0)
       {
@@ -1295,9 +1314,11 @@ S16 read_eeprom (U32 adr, U8 *bp, U8 cnt)	      // read bytes from EEPROM
       // pick up data
 		*bp++ = I2C1RCV;
       // send NO ACK if last byte
-		I2C1_ACKDT = (cnt == 0);
+		//I2C1_ACKDT = (cnt == 0);
+                I2C1CONbits.ACKDT = (cnt ==0);
       // initiate ACK event
-		I2C1_ACKEN = 1;
+		//I2C1_ACKEN = 1;
+                _ACKEN = 1;
       // wait for done
       if (wait_for_i2c() == 0)
       {
@@ -1306,7 +1327,8 @@ S16 read_eeprom (U32 adr, U8 *bp, U8 cnt)	      // read bytes from EEPROM
       }
 	}
 
-   I2C1_PEN = 1;		// initiate stop event
+   //I2C1_PEN = 1;		// initiate stop event
+   _PEN = 1;
    // wait for done
    if (wait_for_i2c() == 0)
    {
@@ -1340,10 +1362,11 @@ S16 write_eeprom (U32 adr, U8 data)       // write one byte to EEPROM
    // returns <0 or -1 if error
 
    // clear interupt flag
-   MI2C1IF = 0;
+   _MI2C1IF = 0;
 
    // initiate start event
-	I2C1_SEN = 1;
+	//I2C1_SEN = 1;
+        _SEN = 1;
    // wait for done
    if (wait_for_i2c() == 0)
    {
@@ -1380,10 +1403,12 @@ S16 write_eeprom (U32 adr, U8 data)       // write one byte to EEPROM
       return -2;
    }
    // make sure ACK status is 0
-   if (I2C1_ACKSTAT)
+   //if (I2C1_ACKSTAT)
+   if(_ACKSTAT)
    {
       // no ACK - initiate stop event and return err
-      I2C1_PEN = 1;
+      //I2C1_PEN = 1;
+       _PEN = 1;
       return -3;
    }
 
@@ -1396,10 +1421,10 @@ S16 write_eeprom (U32 adr, U8 data)       // write one byte to EEPROM
       return -4;
    }
    // make sure ACK status is 0
-   if (I2C1_ACKSTAT)
+   if (_ACKSTAT)
    {
       // no ACK - initiate stop event and return err
-      I2C1_PEN = 1;
+      _PEN = 1;
       return -5;
    }
 
@@ -1412,10 +1437,10 @@ S16 write_eeprom (U32 adr, U8 data)       // write one byte to EEPROM
       return -6;
    }
    // make sure ACK status is 0
-   if (I2C1_ACKSTAT)
+   if (_ACKSTAT)
    {
       // no ACK - initiate stop event and return err
-      I2C1_PEN = 1;
+      _PEN = 1;
       return -7;
    }
 
@@ -1427,15 +1452,15 @@ S16 write_eeprom (U32 adr, U8 data)       // write one byte to EEPROM
       return -8;
    }
    // make sure ACK status is 0
-   if (I2C1_ACKSTAT)
+   if (_ACKSTAT)
    {
       // no ACK - initiate stop event and return err
-      I2C1_PEN = 1;
+      _PEN = 1;
       return -9;
    }
 
    // initiate stop event
-   I2C1_PEN = 1;
+   _PEN = 1;
    if (wait_for_i2c() == 0)
    {
       // err - not done within time period
@@ -1465,12 +1490,12 @@ static U8 wait_for_i2c (void)// wait for I2C1 master interrupt flag
 {
 	U16 timer = 1000;		// max wait should be about 125 us
 
-	while ( !MI2C1IF)    // wait for done; 5 cycle loop 125 ns
+	while ( !_MI2C1IF)    // wait for done; 5 cycle loop 125 ns
    {
 		if (--timer == 0)
          return 0;
    }
-   MI2C1IF = 0;			// clear interupt flag
+   _MI2C1IF = 0;			// clear interupt flag
 	return 1;
 }
 
@@ -1491,9 +1516,9 @@ static U8 wait_for_i2c (void)// wait for I2C1 master interrupt flag
 *****************************************************************************/
 void wait_for_20ms(void)
 {
-	while (!T1IF)
+	while (!_T1IF)
 		;
-	T1IF = 0;
+	_T1IF = 0;
 }
 /****************************************************************************/
 /*       TABLE OF T TYPE TC TEMPERATURES IN 0.1 DEG C UNITS					*/
@@ -2223,6 +2248,7 @@ static U16 ram_test1(U8 *top)     			    // test memory area below the stack
 *    1 if good data, 0 if bad data
 *
 *****************************************************************************/
+/*
 U16 config_check(void)		// Checks config registers in PIC24HJ256GP610
 {
 	U16 i;
@@ -2233,3 +2259,4 @@ U16 config_check(void)		// Checks config registers in PIC24HJ256GP610
 	}
 	return 1;
 }
+*/

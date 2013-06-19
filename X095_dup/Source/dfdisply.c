@@ -20,12 +20,11 @@
 /*******************************************************************************
 ************************ Included Files ****************************************
 *******************************************************************************/
-
-#include "dfine.h"
 #include <stdio.h>
-#include <xcc.h>
+#include <xc.h>
 #include <string.h>
 #include "dfdisply.h"
+#include "dfine.h"
 
 /*******************************************************************************
 ********************* Application Globals **************************************
@@ -766,14 +765,17 @@ int gDFDisplyInit(void)
           * 5. Enable the DMA TX channel and force the transfer to begin.
           */
 
-         DMA6_CHEN = 0;
-         DMA7_CHEN = 0;
+         //DMA6_CHEN = 0;
+          DMA6CONbits.CHEN = 0;
+         //DMA7_CHEN = 0;
+          DMA7CONbits.CHEN = 0;
          *bp = 0;
 
          memmove((void*) DISPLAY_TX2_DMA_BUF, (const void*) "\r", (size_t) 1);
          DMA6STA = DISPLAY_TX2_DMA_BUF - DMARAM;
          DMA6CNT = 0;
-         DMA6_CHEN = 1;
+         //DMA6_CHEN = 1;
+         DMA6CONbits.CHEN = 1;
          DMA6_FORCE = 1;
 
          /*
@@ -786,11 +788,13 @@ int gDFDisplyInit(void)
 
          DMA7STA = DISPLAY_RX2_DMA_BUF - DMARAM;
          DMA7CNT = 1;
-         DMA7_CHEN = 1;
+         //DMA7_CHEN = 1;
+         DMA7CONbits.CHEN = 1;
          wait_for_20ms();
          if (*bp == '>')
          {
-            DMA7_CHEN = 0;
+            //DMA7_CHEN = 0;
+             DMA7CONbits.CHEN = 0;
 
             display_init_succeeded = 1;
 
@@ -803,32 +807,40 @@ int gDFDisplyInit(void)
 
             for (j = 0; j < i; j++)
             {
-               DMA7_CHEN = 0;
+              //DMA7_CHEN = 0;
+              DMA7CONbits.CHEN = 0;
                *bp = 0;
                DMA7STA = DISPLAY_RX2_DMA_BUF - DMARAM;
                DMA7CNT = 1;
-               DMA7_CHEN = 1;
+               //DMA7_CHEN = 1;
+               DMA7CONbits.CHEN = 1;
                wait_for_20ms();
-               DMA7_CHEN = 0;
+               //DMA7_CHEN = 0;
+               DMA7CONbits.CHEN = 0;
             }
             break;
          }
          else
          {
-            DMA7_CHEN = 0;
+            //DMA7_CHEN = 0;
+            DMA7CONbits.CHEN = 0;
          }
       }
       else
       {
-         DMA6_CHEN = 0;
-         DMA7_CHEN = 0;
+         //DMA6_CHEN = 0;
+         DMA6CONbits.CHEN = 0;
+         //DMA7_CHEN = 0;
+         DMA7CONbits.CHEN = 0;
          *bp = 0;
 
          memmove((void*) DISPLAY_TX2_DMA_BUF, (const void*) "*abt\r", (size_t) 5);
          DMA6STA = DISPLAY_TX2_DMA_BUF - DMARAM;
          DMA6CNT = 4;
-         DMA6_CHEN = 1;
-         DMA6_FORCE = 1;
+         //DMA6_CHEN = 1;
+         DMA7CONbits.CHEN = 1;
+         //DMA6_FORCE = 1;
+         DMA6REQbits.FORCE = 1;
 
          DMA7STA = DISPLAY_RX2_DMA_BUF - DMARAM;
          DMA7CNT = 1;
