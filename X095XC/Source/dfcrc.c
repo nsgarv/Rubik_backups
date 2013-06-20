@@ -112,6 +112,7 @@ static const unsigned int crc_table[] = {
 *    NONE
 *
 *****************************************************************************/
+/*
 void crcgen(far unsigned char *bp, unsigned bytes)
 {
 	unsigned crc = CRC_INIT;
@@ -122,6 +123,7 @@ void crcgen(far unsigned char *bp, unsigned bytes)
 	*bp++ = ~crc;
 	*bp++ = ~(crc >> 8);
 }
+*/
 /*****************************************************************************
 * NAME:  crcchk()
 *
@@ -159,6 +161,7 @@ int crcchk(far unsigned char *bp, unsigned bytes)
 *    calculated CRC
 *
 *****************************************************************************/
+/*
 U16 crc_partial_flash(U16 crc, U32 next_address, U32 last_address_p2) // calculate CRC for part of the FLASH memory
 {
 	union {
@@ -178,6 +181,7 @@ U16 crc_partial_flash(U16 crc, U32 next_address, U32 last_address_p2) // calcula
 
 	return (crc); // return calculated crc
 }
+*/
 
 /*****************************************************************************
 * NAME:  crc_flash()
@@ -195,6 +199,7 @@ U16 crc_partial_flash(U16 crc, U32 next_address, U32 last_address_p2) // calcula
 *    1 if good data CRC, 0 if bad CRC
 *
 *****************************************************************************/
+#if (CHECK_CRC)
 U16 crc_flash(void)
 {
    U16 crc_match = 0;      /* assume bad CRC until its tested and found good */
@@ -260,4 +265,5 @@ U16 crc_flash(void)
 
    return (crc_match);
 }
+#endif
 

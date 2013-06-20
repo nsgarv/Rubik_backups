@@ -367,14 +367,16 @@ typedef enum /* these indices correlate to array indices */
 ****************** Global Function Prototypes **********************************
 *******************************************************************************/
 
-U16  config_check(void);                     // Checks config registers in PIC24HJ256GP610
+//U16  config_check(void);                     // Checks config registers in PIC24HJ256GP610
 U16  convert_ntc(U16 adc_value, U16 *tempp); // converts NTC ADC reading to degrees C * 10
 U16  convert_to_degrees(U16 adc_value);      // converts TC ADC reading to degrees C * 10
 
 int  crcchk(far unsigned char *bp, unsigned bytes);
-void crcgen(far unsigned char *bp, unsigned bytes);
-
+//void crcgen(far unsigned char *bp, unsigned bytes);
+#if (CHECK_CRC)
 U16  crc_flash(void);                        // 144 ms
+#endif
+
 
 void fault_routine(ERROR_SEVERITY severity, U16 number, const char *message);
 U16  get_ADC(U8 ch);

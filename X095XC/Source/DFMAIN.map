@@ -1,0 +1,329 @@
+HI-TECH Software dsPICC Compiler V9.60PL2
+
+Linker command line:
+
+-W9 \
+  --edf=C:\Program Files (x86)\HI-TECH Software\DSPICC\STD\9.60\dat\en_msgs.txt \
+  -h+DFMAIN.sym -z -Q24HJ256GP610 -ol.obj -MDFMAIN.map -E1 \
+  -ver=dsPICC#V9.60PL2 -ACODE=0200h-0FFFFh,010000h-01FFFFh,020000h-02ABFFh \
+  -ACONST=0200h-07FFFh,08000h-0FFFFhx4,028000h-02ABFFh \
+  -ANEARCODE=0200h-0FFFFh -AXDATA=0800h-047FFh -ANEARXDATA=0800h-01FFFh \
+  -ACONFIG=01F00000h-01F00020h -AVECTORS=06h-0FFh -AALTVECTOR=0100h-01FFh \
+  -AMCONST=08000h-0FFFFh -preset_vec=00h -pvectors=VECTORS \
+  -paltvectors=ALTVECTOR -pconfig=CONFIG -pconst=CONST,strings=CONST \
+  -pnearidata=NEARCODE -pnearyidata=NEARCODE -pidata=NEARCODE \
+  -pyidata=NEARCODE -ptext=CODE -pinit=CODE -pend_init=init -ppowerup=CODE \
+  -pnearbss=NEARXDATA,nearbitbss,nearnvram,nearnvbit,neardata -pbss=XDATA \
+  -pbitbss=XDATA -pnvram=XDATA -pnvbit=XDATA -pdata=XDATA -pheap=-04800h \
+  -pmconst=08200h,mstrings -DCODE=2 -DCONST=2 -DNEARCODE=2 -DVECTORS=2 \
+  -DALTVECTOR=2 startup.obj DFDISPLY.obj DFMAIN.obj DFHW.obj dfcrc.obj \
+  C:\Program Files (x86)\HI-TECH Software\DSPICC\STD\9.60\lib\pic24-sf.lib \
+  C:\Program Files (x86)\HI-TECH Software\DSPICC\STD\9.60\lib\pic24-sc.lib 
+
+Object code version is 3.10
+
+Machine type is 24HJ256GP610
+
+		Name          Link     Load   Length Selector Space Scale
+startup.obj     init          828C     828C       20    4146     0
+		reset_vec        0        0        4       0     0
+DFDISPLY.obj    nearidata    1F7A8    1F7A8      728    7DEA     0
+		text          82AC     82AC     1BFC    4156     0
+		mconst        8200     8200      2E2    4100     1
+		const          400      400      5C4     100     0
+		nearbss        800      800      556     400     1
+		neardata       DA4      DA4      394     400     1
+DFMAIN.obj      nearidata    1FED0    1FED0      12C    7DEA     0
+		text          9EA8     9EA8     2086    4156     0
+		mconst        84E2     84E2      110    4100     1
+		const          9C4      9C4      220     100     0
+		nearbss        D56      D56       3A     400     1
+		neardata      1138     1138       96     400     1
+DFHW.obj        nearidata    1FFFC    1FFFC        4    7DEA     0
+		text          BF2E     BF2E     2020    4156     0
+		mconst        85F2     85F2      812    4100     1
+		const          BE4      BE4     1024     100     0
+		config      F80000   F80000       10  7C0000     0
+		nearbss        D90      D90       12     400     1
+		neardata      11CE     11CE        2     400     1
+dfcrc.obj       text          DF4E     DF4E       80    4156     0
+		mconst        8E04     8E04      202    4100     1
+		const         1C08     1C08      404     100     0
+
+C:\Program Files (x86)\HI-TECH Software\DSPICC\STD\9.60\lib\pic24-sf.lib
+sprintf.obj     text          DFCE     DFCE       40    4156     0
+fmprnt.obj      text          E00E     E00E     17B0    4156     0
+		mconst        9006     9006       A2    4100     1
+		const         200C     200C      144     100     0
+
+C:\Program Files (x86)\HI-TECH Software\DSPICC\STD\9.60\lib\pic24-sc.lib
+ctype_.obj      mconst        90A8     90A8      102    4100     1
+		const         2150     2150      204     100     0
+memcpy.obj      text          F7BE     F7BE       1A    4156     0
+memmove.obj     text          F7D8     F7D8       38    4156     0
+powers.obj      mconst        91AA     91AA       68    4100     1
+		const         2354     2354       D0     100     0
+strcat.obj      text          F810     F810       1A    4156     0
+strcpy.obj      text          F82A     F82A       12    4156     0
+strlen.obj      text          F83C     F83C       16    4156     0
+divtol.obj      text          F852     F852       34    4156     0
+fladd.obj       text          F886     F886       9E    4156     0
+flcmp.obj       text          F924     F924       1C    4156     0
+fldiv.obj       text          F940     F940       5E    4156     0
+flmul.obj       text          F99E     F99E       5E    4156     0
+float.obj       text          F9FC     F9FC       90    4156     0
+fpover.obj      text          FA8C     FA8C        E    4156     0
+		nearbss        DA2      DA2        2     400     1
+ftol.obj        text          FA9A     FA9A       52    4156     0
+ldiv.obj        text          FAEC     FAEC       AA    4156     0
+lmul.obj        text          FB96     FB96       12    4156     0
+ltof.obj        text          FBA8     FBA8       2A    4156     0
+
+TOTAL		Name          Link     Load   Length
+	CLASS	CODE     
+		text          82AC     82AC     7926
+		init          828C     828C       20
+
+	CLASS	CONST    
+		const          400      400     2024
+
+	CLASS	NEARCODE 
+		nearidata    1F7A8    1F7A8      858
+
+	CLASS	XDATA    
+
+	CLASS	NEARXDATA
+		nearbss        800      800      5A4
+		neardata       DA4      DA4      42C
+
+	CLASS	CONFIG   
+		config      F80000   F80000       10
+
+	CLASS	VECTORS  
+		reset_vec        0        0        4
+
+	CLASS	ALTVECTOR
+
+	CLASS	MCONST   
+		mconst        8200     8200     1012
+
+	CLASS	NEARYDATA
+
+	CLASS	YDATA    
+
+	CLASS	EEPROM   
+
+
+
+SEGMENTS	Name		Load	Length	 Top	Selector    Space Class Delta
+
+		reset_vec       000000	000004	000004	       0       0  VECTORS     2
+		const           000400	002024	002424	     100       0  CONST       1
+		nearbss         000800	0009D0	0011D0	     400       1  NEARXDAT    1
+		mconst          008200	001012	009212	    4100       1  MCONST      1
+		init            00828C	000020	0082AC	    4146       0  CODE        2
+		text            0082AC	007926	00FBD2	    4156       0  CODE        2
+		nearidata       01F7A8	000858	020000	    7DEA       0  NEARCODE    1
+		config          F80000	000010	F80010	  7C0000       0  CONFIG      2
+
+
+UNUSED ADDRESS RANGES
+
+	ALTVECTOR        0000100-00001FF        2
+	CODE             0001212-000828B        2
+	                 000FBD2-000FBD3
+	                 0010000-002ABFF
+	CONFIG           1F00020-1F00020        1
+	CONST            0001212-000828B        2
+	                 000FBD2-000FBD3
+	                 0010000-002ABFF
+	MCONST           0008000-00081FF        1
+	                 0009212-000FFFF
+	NEARCODE         0001212-000828B        2
+	                 000FBD2-000FBD3
+	NEARXDATA        00011D0-0001FFF        1
+	VECTORS          0000006-00000FF        2
+	XDATA            00011D0-00047FF        1
+
+                                  Symbol Table
+
+_OldTempPowerValue               nearbss     0000812
+_TempControl                     text        000B58A
+__Bbitbss                        bitbss      00011D0
+__Bnearbitbss                    nearbitbss  0000DA4
+__Bnearnvbit                     nearnvbit   0000DA4
+__Bnearybitbss                   nearybitbss 0009212
+__Bnearynvbit                    nearynvbit  0009212
+__Bnvbit                         nvbit       00011D0
+__Bybitbss                       ybitbss     0009212
+__Bynvbit                        ynvbit      0009212
+__Haltvectors                    altvectors  0000100
+__Hbitbss                        bitbss      0008E80
+__Hbss                           bss         00011D0
+__Hconfig                        config      0F80010
+__Hconst                         const       0002424
+__Hdata                          data        00011D0
+__Heeprom                        eeprom      0004909
+__Hend_init                      end_init    00082AC
+__Hheap                          heap        0004800
+__Hidata                         idata       0002428
+__Hinit                          init        00082AC
+__Hmconst                        mconst      0009212
+__Hmstrings                      mstrings    0009212
+__Hnearbitbss                    nearbitbss  0006D20
+__Hnearbss                       nearbss     0000DA4
+__Hneardata                      neardata    00011D0
+__Hnearidata                     nearidata   0020000
+__Hnearnvbit                     nearnvbit   0006D20
+__Hnearnvram                     nearnvram   0000DA4
+__Hnearybitbss                   nearybitbss 0049090
+__Hnearybss                      nearybss    0009212
+__Hnearydata                     nearydata   0009212
+__Hnearyidata                    nearyidata  0002428
+__Hnearynvbit                    nearynvbit  0049090
+__Hnearynvram                    nearynvram  0009212
+__Hnvbit                         nvbit       0008E80
+__Hnvram                         nvram       00011D0
+__Hpowerup                       powerup     000FBD4
+__Hreset_vec                     reset_vec   0000004
+__Hstrings                       strings     0002428
+__Htext                          text        000FBD2
+__Hvectors                       vectors     0000006
+__Hybitbss                       ybitbss     0049090
+__Hybss                          ybss        0009212
+__Hydata                         ydata       0009212
+__Hyidata                        yidata      0002428
+__Hynvbit                        ynvbit      0049090
+__Hynvram                        ynvram      0009212
+__Laltvectors                    altvectors  0000100
+__Lbitbss                        bitbss      0008E80
+__Lbss                           bss         00011D0
+__Lconfig                        config      0F80000
+__Lconst                         const       0000400
+__Ldata                          data        00011D0
+__Leeprom                        eeprom      0004909
+__Lend_init                      end_init    00082AC
+__Lheap                          heap        0004800
+__Lidata                         idata       0002428
+__Linit                          init        000828C
+__Lmconst                        mconst      0008200
+__Lmstrings                      mstrings    0009212
+__Lnearbitbss                    nearbitbss  0006D20
+__Lnearbss                       nearbss     0000800
+__Lneardata                      neardata    0000DA4
+__Lnearidata                     nearidata   001F7A8
+__Lnearnvbit                     nearnvbit   0006D20
+__Lnearnvram                     nearnvram   0000DA4
+__Lnearybitbss                   nearybitbss 0049090
+__Lnearybss                      nearybss    0009212
+__Lnearydata                     nearydata   0009212
+__Lnearyidata                    nearyidata  0002428
+__Lnearynvbit                    nearynvbit  0049090
+__Lnearynvram                    nearynvram  0009212
+__Lnvbit                         nvbit       0008E80
+__Lnvram                         nvram       00011D0
+__Lpowerup                       powerup     000FBD4
+__Lreset_vec                     reset_vec   0000000
+__Lstrings                       strings     0002428
+__Ltext                          text        00082AC
+__Lvectors                       vectors     0000006
+__Lybitbss                       ybitbss     0049090
+__Lybss                          ybss        0009212
+__Lydata                         ydata       0009212
+__Lyidata                        yidata      0002428
+__Lynvbit                        ynvbit      0049090
+__Lynvram                        ynvram      0009212
+__S0                             (abs)       1F00020
+__S1                             (abs)       00011D0
+__ctype_                         mconst      00090A8
+__div_to_l_                      text        000F852
+__doprnt                         text        000E228
+__npowers_                       mconst      00091DE
+__powers_                        mconst      00091AA
+__sp_init                        (abs)       00011D0
+__splim_init                     (abs)       00047FE
+_convert_ntc                     text        000D40A
+_convert_to_degrees              text        000D384
+_crcchk                          text        000DF4E
+_exit                            init        000828C
+_fault_routine                   text        000B91E
+_gDFDisplyClearScreen            text        0008762
+_gDFDisplyDisableRFGraphicItem   text        00087A6
+_gDFDisplyDoesGraphicDisplayHave text        00087C6
+_gDFDisplyInit                   text        00082AC
+_gDFDisplyPrintCyclesValueTextIt text        0008800
+_gDFDisplyPrintErrorItem         text        0008896
+_gDFDisplyPrintGraphicItem       text        0008A06
+_gDFDisplyPrintImpedanceGraphicI text        0008B2C
+_gDFDisplyPrintPowerValueTextIte text        0009070
+_gDFDisplyPrintRFCycleValueTextI text        000911C
+_gDFDisplyPrintRFGraphicItem     text        0009224
+_gDFDisplyPrintRFToTalValueTextI text        0009294
+_gDFDisplyPrintTemperatureValues text        0009356
+_gDFDisplyPrintText              text        0009846
+_gDFDisplyPrintTextItem          text        00098D6
+_gDFDisplyProcessDisplayRequests text        0009B6C
+_gDFDisplySetProgrammableButtons text        0009C52
+_get_ADC                         text        000D0D4
+_get_raw_switches                text        000CF06
+_get_recorded_buttons            text        000CEE6
+_get_status                      text        000CF58
+_get_switches                    text        000CD90
+_hw_init                         text        000CFB8
+_main                            text        0009EA8
+_memcpy                          text        000F7BE
+_memmove                         text        000F7D8
+_post_rf                         text        000BFF2
+_post_spi                        text        000C862
+_post_supply_volts               text        000C678
+_powercontrol                    text        000BF2E
+_pre_calculated_crc              mconst      0009004
+_ram_test                        text        000D6B8
+_read_RF_ADC                     text        000C9F6
+_read_SPI_ADC                    text        000C994
+_read_eeprom                     text        000D116
+_sprintf                         text        000DFCE
+_strcat                          text        000F810
+_strcpy                          text        000F82A
+_strlen                          text        000F83C
+_tone                            text        000CBDE
+_tone_gen                        text        000CB56
+_wait_for_20ms                   text        000D368
+_write_DAC                       text        000CB1E
+_write_LEDs                      text        000CF94
+abtof                            text        000FBB2
+aldiv                            text        000FB62
+almod                            text        000FB7A
+almul                            text        000FB96
+altof                            text        000FBB6
+awtof                            text        000FBB4
+config_word1                     config      0F80000
+config_word2                     config      0F80002
+config_word3                     config      0F80004
+config_word4                     config      0F80006
+config_word5                     config      0F80008
+config_word6                     config      0F8000A
+config_word7                     config      0F8000C
+config_word8                     config      0F8000E
+divide                           text        000F960
+fladd                            text        000F886
+flcmp                            text        000F924
+fldiv                            text        000F940
+flmul                            text        000F99E
+flsub                            text        000F8E4
+fpover                           text        000FA94
+fpunder                          text        000FA8C
+ftol                             text        000FA9A
+lbtof                            text        000FBA8
+lldiv                            text        000FAEC
+llmod                            text        000FB40
+llmul                            text        000FB96
+lltof                            text        000FBAC
+lnegem                           text        000FB48
+lwtof                            text        000FBAA
+normleft                         text        000FA48
+packleft                         text        000FA38
+reset_vec                        reset_vec   0000000
+start                            init        000828C
+unpackleft                       text        000F9FC
+unpackright                      text        000FA1A

@@ -2269,6 +2269,7 @@ static U16 ram_test1(U8 *top)     			    // test memory area below the stack
 *    1 if good data, 0 if bad data
 *
 *****************************************************************************/
+/*
 U16 config_check(void)		// Checks config registers in PIC24HJ256GP610
 {
 	U16 i;
@@ -2279,3 +2280,4 @@ U16 config_check(void)		// Checks config registers in PIC24HJ256GP610
 	}
 	return 1;
 }
+*/

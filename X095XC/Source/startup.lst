@@ -1,0 +1,899 @@
+
+
+HI-TECH Software dsPIC Macro Assembler V9.60PL2                            Page 1
+                                                       Wed Jun 19 09:55:58 2013
+
+     1                           
+     2                           	; HI-TECH dsPIC/PIC24 V9.60PL2
+     3                           	; Copyright (C) 1984-2008 HI-TECH Software
+     4                           	;Serial no. HCDSPIC-437079963
+     5                           
+     6                           	; Auto-generated runtime startup code for final
+                                  link stage.
+     7                           
+     8                           	;
+     9                           	; Compiler options:
+    10                           	;
+    11                           	; -oDFMAIN.cof -mDFMAIN.map --runtime=default,+
+                                 clear,+init,+keep,+stack \
+    12                           	; DFDISPLY.obj DFMAIN.obj DFHW.obj dfcrc.obj -l
+                                 f --chip=24HJ256GP610 \
+    13                           	; -IC:\Program Files (x86)\HI-TECH Software\DSP
+                                 ICC\STD\9.60\include -P \
+    14                           	; --opt=none,-asm,+debug,-9 -v --warn=9 -Bsmall
+                                  -q -g --asmlist \
+    15                           	; --errformat=Error   [%n] %f; %l.%c %s --msgfo
+                                 rmat=Advisory[%n] %s \
+    16                           	; --warnformat=Warning [%n] %f; %l.%c %s
+    17                           	;
+    18                           
+    19                           
+    20                           	psect	init,class=CODE,delta=2,reloc=4
+    21                           	psect	end_init,class=CODE,delta=2,reloc=4
+    22                           	psect	reset_vec,class=VECTORS,delta=2
+    23                           	psect	powerup,class=CODE,delta=2,reloc=4
+    24                           	psect	vectors,class=VECTORS,delta=2
+    25                           	psect	altvectors,class=ALTVECTOR,delta=2
+    26                           	psect	config,class=CONFIG,delta=2,reloc=4
+    27                           	psect	eeprom,class=EEPROM,delta=2
+    28                           	psect	data,class=XDATA,space=1,reloc=2
+    29                           	psect	neardata,class=NEARXDATA,space=1,reloc=2
+    30                           	psect	heap,class=XDATA,space=1,reloc=2
+    31                           	psect	strings,class=CONST,delta=1,reloc=4,width
+                                 =2
+    32                           	psect	mstrings,class=MCONST
+    33                           	psect	bss,space=1,class=XDATA
+    34                           	psect	nearbss,space=1,class=NEARXDATA
+    35                           	psect	ydata,class=YDATA,space=1,reloc=2
+    36                           	psect	nearydata,class=NEARYDATA,space=1,reloc=2
+    37                           	psect	ybss,space=1,class=YDATA
+    38                           	psect	nearybss,space=1,class=NEARYDATA
+    39                           	psect	ybitbss,space=1,bit,class=YDATA
+    40                           	psect	nearybitbss,space=1,bit,class=NEARYDATA
+    41                           	psect	ynvram,class=YDATA,space=1,reloc=2,pad=2
+    42                           	psect	nearynvram,class=NEARYDATA,space=1,reloc=
+                                 2,pad=2
+    43                           	psect	ynvbit,space=1,bit,class=YDATA
+    44                           	psect	nearynvbit,space=1,bit,class=NEARYDATA
+    45                           	psect	bitbss,space=1,bit,class=XDATA
+    46                           	psect	nearbitbss,space=1,bit,class=NEARXDATA
+    47                           	psect	nvram,class=XDATA,space=1,reloc=2,pad=2
+    48                           	psect	nearnvram,class=NEARXDATA,space=1,reloc=2
+                                 ,pad=2
+    49                           	psect	nvbit,space=1,bit,class=XDATA
+    50                           	psect	nearnvbit,space=1,bit,class=NEARXDATA
+    51                           	psect	const,global,reloc=4,class=CONST,delta=1,
+                                 pad=4,width=2
+    52                           	psect	mconst,global,reloc=2,class=MCONST,space=
+                                 1,delta=1,pad=2
+    53                           
+    54                           	;Interrupt Vector Table
+    55                           
+    56                           	; vector 0x6
+    57                           psect vectors
+    58                           	;	not defined
+    59                           	; vector 0x8
+    60                           psect vectors
+    61                           	;	not defined
+    62                           	; vector 0xA
+    63                           psect vectors
+    64                           	;	not defined
+    65                           	; vector 0xC
+    66                           psect vectors
+    67                           	;	not defined
+    68                           	; vector 0xE
+    69                           psect vectors
+    70                           	;	not defined
+    71                           	;Reserved memory (0x10)
+    72                           	;Reserved memory (0x12)
+    73                           	; vector 0x14
+    74                           psect vectors
+    75                           	;	not defined
+    76                           	; vector 0x16
+    77                           psect vectors
+    78                           	;	not defined
+    79                           	; vector 0x18
+    80                           psect vectors
+    81                           	;	not defined
+    82                           	; vector 0x1A
+    83                           psect vectors
+    84                           	;	not defined
+    85                           	; vector 0x1C
+    86                           psect vectors
+    87                           	;	not defined
+    88                           	; vector 0x1E
+    89                           psect vectors
+    90                           	;	not defined
+    91                           	; vector 0x20
+    92                           psect vectors
+    93                           	;	not defined
+    94                           	; vector 0x22
+    95                           psect vectors
+    96                           	;	not defined
+    97                           	; vector 0x24
+    98                           psect vectors
+    99                           	;	not defined
+   100                           	; vector 0x26
+   101                           psect vectors
+   102                           	;	not defined
+   103                           	; vector 0x28
+   104                           psect vectors
+   105                           	;	not defined
+   106                           	; vector 0x2A
+   107                           psect vectors
+   108                           	;	not defined
+   109                           	; vector 0x2C
+   110                           psect vectors
+   111                           	;	not defined
+   112                           	; vector 0x2E
+   113                           psect vectors
+   114                           	;	not defined
+   115                           	; vector 0x30
+   116                           psect vectors
+   117                           	;	not defined
+   118                           	; vector 0x32
+   119                           psect vectors
+   120                           	;	not defined
+   121                           	; vector 0x34
+   122                           psect vectors
+   123                           	;	not defined
+   124                           	; vector 0x36
+   125                           psect vectors
+   126                           	;	not defined
+   127                           	; vector 0x38
+   128                           psect vectors
+   129                           	;	not defined
+   130                           	; vector 0x3A
+   131                           psect vectors
+   132                           	;	not defined
+   133                           	; vector 0x3C
+   134                           psect vectors
+   135                           	;	not defined
+   136                           	; vector 0x3E
+   137                           psect vectors
+   138                           	;	not defined
+   139                           	; vector 0x40
+   140                           psect vectors
+   141                           	;	not defined
+   142                           	; vector 0x42
+   143                           psect vectors
+   144                           	;	not defined
+   145                           	; vector 0x44
+   146                           psect vectors
+   147                           	;	not defined
+   148                           	; vector 0x46
+   149                           psect vectors
+   150                           	;	not defined
+   151                           	; vector 0x48
+   152                           psect vectors
+   153                           	;	not defined
+   154                           	; vector 0x4A
+   155                           psect vectors
+   156                           	;	not defined
+   157                           	; vector 0x4C
+   158                           psect vectors
+   159                           	;	not defined
+   160                           	; vector 0x4E
+   161                           psect vectors
+   162                           	;	not defined
+   163                           	; vector 0x50
+   164                           psect vectors
+   165                           	;	not defined
+   166                           	; vector 0x52
+   167                           psect vectors
+   168                           	;	not defined
+   169                           	; vector 0x54
+   170                           psect vectors
+   171                           	;	not defined
+   172                           	; vector 0x56
+   173                           psect vectors
+   174                           	;	not defined
+   175                           	; vector 0x58
+   176                           psect vectors
+   177                           	;	not defined
+   178                           	; vector 0x5A
+   179                           psect vectors
+   180                           	;	not defined
+   181                           	; vector 0x5C
+   182                           psect vectors
+   183                           	;	not defined
+   184                           	; vector 0x5E
+   185                           psect vectors
+   186                           	;	not defined
+   187                           	; vector 0x60
+   188                           psect vectors
+   189                           	;	not defined
+   190                           	; vector 0x62
+   191                           psect vectors
+   192                           	;	not defined
+   193                           	; vector 0x64
+   194                           psect vectors
+   195                           	;	not defined
+   196                           	; vector 0x66
+   197                           psect vectors
+   198                           	;	not defined
+   199                           	; vector 0x68
+   200                           psect vectors
+   201                           	;	not defined
+   202                           	; vector 0x6A
+   203                           psect vectors
+   204                           	;	not defined
+   205                           	; vector 0x6C
+   206                           psect vectors
+   207                           	;	not defined
+   208                           	; vector 0x6E
+   209                           psect vectors
+   210                           	;	not defined
+   211                           	; vector 0x70
+   212                           psect vectors
+   213                           	;	not defined
+   214                           	; vector 0x72
+   215                           psect vectors
+   216                           	;	not defined
+   217                           	; vector 0x74
+   218                           psect vectors
+   219                           	;	not defined
+   220                           	; vector 0x76
+   221                           psect vectors
+   222                           	;	not defined
+   223                           	; vector 0x78
+   224                           psect vectors
+   225                           	;	not defined
+   226                           	; vector 0x7A
+   227                           psect vectors
+   228                           	;	not defined
+   229                           	; vector 0x7C
+   230                           psect vectors
+   231                           	;	not defined
+   232                           	; vector 0x7E
+   233                           psect vectors
+   234                           	;	not defined
+   235                           	; vector 0x80
+   236                           psect vectors
+   237                           	;	not defined
+   238                           	; vector 0x82
+   239                           psect vectors
+   240                           	;	not defined
+   241                           	; vector 0x84
+   242                           psect vectors
+   243                           	;	not defined
+   244                           	; vector 0x86
+   245                           psect vectors
+   246                           	;	not defined
+   247                           	; vector 0x88
+   248                           psect vectors
+   249                           	;	not defined
+   250                           	; vector 0x8A
+   251                           psect vectors
+   252                           	;	not defined
+   253                           	; vector 0x8C
+   254                           psect vectors
+   255                           	;	not defined
+   256                           	; vector 0x8E
+   257                           psect vectors
+   258                           	;	not defined
+   259                           	; vector 0x90
+   260                           psect vectors
+   261                           	;	not defined
+   262                           	; vector 0x92
+   263                           psect vectors
+   264                           	;	not defined
+   265                           	; vector 0x94
+   266                           psect vectors
+   267                           	;	not defined
+   268                           	; vector 0x96
+   269                           psect vectors
+   270                           	;	not defined
+   271                           	; vector 0x98
+   272                           psect vectors
+   273                           	;	not defined
+   274                           	; vector 0x9A
+   275                           psect vectors
+   276                           	;	not defined
+   277                           	; vector 0x9C
+   278                           psect vectors
+   279                           	;	not defined
+   280                           	; vector 0x9E
+   281                           psect vectors
+   282                           	;	not defined
+   283                           	; vector 0xA0
+   284                           psect vectors
+   285                           	;	not defined
+   286                           	; vector 0xA2
+   287                           psect vectors
+   288                           	;	not defined
+   289                           	; vector 0xA4
+   290                           psect vectors
+   291                           	;	not defined
+   292                           	; vector 0xA6
+   293                           psect vectors
+   294                           	;	not defined
+   295                           	; vector 0xA8
+   296                           psect vectors
+   297                           	;	not defined
+   298                           	; vector 0xAA
+   299                           psect vectors
+   300                           	;	not defined
+   301                           	; vector 0xAC
+   302                           psect vectors
+   303                           	;	not defined
+   304                           	; vector 0xAE
+   305                           psect vectors
+   306                           	;	not defined
+   307                           	; vector 0xB0
+   308                           psect vectors
+   309                           	;	not defined
+   310                           	; vector 0xB2
+   311                           psect vectors
+   312                           	;	not defined
+   313                           	; vector 0xB4
+   314                           psect vectors
+   315                           	;	not defined
+   316                           	; vector 0xB6
+   317                           psect vectors
+   318                           	;	not defined
+   319                           	; vector 0xB8
+   320                           psect vectors
+   321                           	;	not defined
+   322                           	; vector 0xBA
+   323                           psect vectors
+   324                           	;	not defined
+   325                           	; vector 0xBC
+   326                           psect vectors
+   327                           	;	not defined
+   328                           	; vector 0xBE
+   329                           psect vectors
+   330                           	;	not defined
+   331                           	; vector 0xC0
+   332                           psect vectors
+   333                           	;	not defined
+   334                           	; vector 0xC2
+   335                           psect vectors
+   336                           	;	not defined
+   337                           	; vector 0xC4
+   338                           psect vectors
+   339                           	;	not defined
+   340                           	; vector 0xC6
+   341                           psect vectors
+   342                           	;	not defined
+   343                           	; vector 0xC8
+   344                           psect vectors
+   345                           	;	not defined
+   346                           	; vector 0xCA
+   347                           psect vectors
+   348                           	;	not defined
+   349                           	; vector 0xCC
+   350                           psect vectors
+   351                           	;	not defined
+   352                           	; vector 0xCE
+   353                           psect vectors
+   354                           	;	not defined
+   355                           	; vector 0xD0
+   356                           psect vectors
+   357                           	;	not defined
+   358                           	; vector 0xD2
+   359                           psect vectors
+   360                           	;	not defined
+   361                           	; vector 0xD4
+   362                           psect vectors
+   363                           	;	not defined
+   364                           	; vector 0xD6
+   365                           psect vectors
+   366                           	;	not defined
+   367                           	; vector 0xD8
+   368                           psect vectors
+   369                           	;	not defined
+   370                           	; vector 0xDA
+   371                           psect vectors
+   372                           	;	not defined
+   373                           	; vector 0xDC
+   374                           psect vectors
+   375                           	;	not defined
+   376                           	; vector 0xDE
+   377                           psect vectors
+   378                           	;	not defined
+   379                           	; vector 0xE0
+   380                           psect vectors
+   381                           	;	not defined
+   382                           	; vector 0xE2
+   383                           psect vectors
+   384                           	;	not defined
+   385                           	; vector 0xE4
+   386                           psect vectors
+   387                           	;	not defined
+   388                           	; vector 0xE6
+   389                           psect vectors
+   390                           	;	not defined
+   391                           	; vector 0xE8
+   392                           psect vectors
+   393                           	;	not defined
+   394                           	; vector 0xEA
+   395                           psect vectors
+   396                           	;	not defined
+   397                           	; vector 0xEC
+   398                           psect vectors
+   399                           	;	not defined
+   400                           	; vector 0xEE
+   401                           psect vectors
+   402                           	;	not defined
+   403                           	; vector 0xF0
+   404                           psect vectors
+   405                           	;	not defined
+   406                           	; vector 0xF2
+   407                           psect vectors
+   408                           	;	not defined
+   409                           	; vector 0xF4
+   410                           psect vectors
+   411                           	;	not defined
+   412                           	; vector 0xF6
+   413                           psect vectors
+   414                           	;	not defined
+   415                           	; vector 0xF8
+   416                           psect vectors
+   417                           	;	not defined
+   418                           	; vector 0xFA
+   419                           psect vectors
+   420                           	;	not defined
+   421                           	; vector 0xFC
+   422                           psect vectors
+   423                           	;	not defined
+   424                           	; vector 0xFE
+   425                           psect vectors
+   426                           	;	not defined
+   427                           	;Reserved memory (0x100)
+   428                           	;Reserved memory (0x102)
+   429                           	;Reserved memory (0x104)
+   430                           	; vector 0x106
+   431                           psect altvectors
+   432                           	;	not defined
+   433                           	; vector 0x108
+   434                           psect altvectors
+   435                           	;	not defined
+   436                           	; vector 0x10A
+   437                           psect altvectors
+   438                           	;	not defined
+   439                           	; vector 0x10C
+   440                           psect altvectors
+   441                           	;	not defined
+   442                           	; vector 0x10E
+   443                           psect altvectors
+   444                           	;	not defined
+   445                           	;Reserved memory (0x110)
+   446                           	;Reserved memory (0x112)
+   447                           	; vector 0x114
+   448                           psect altvectors
+   449                           	;	not defined
+   450                           	; vector 0x116
+   451                           psect altvectors
+   452                           	;	not defined
+   453                           	; vector 0x118
+   454                           psect altvectors
+   455                           	;	not defined
+   456                           	; vector 0x11A
+   457                           psect altvectors
+   458                           	;	not defined
+   459                           	; vector 0x11C
+   460                           psect altvectors
+   461                           	;	not defined
+   462                           	; vector 0x11E
+   463                           psect altvectors
+   464                           	;	not defined
+   465                           	; vector 0x120
+   466                           psect altvectors
+   467                           	;	not defined
+   468                           	; vector 0x122
+   469                           psect altvectors
+   470                           	;	not defined
+   471                           	; vector 0x124
+   472                           psect altvectors
+   473                           	;	not defined
+   474                           	; vector 0x126
+   475                           psect altvectors
+   476                           	;	not defined
+   477                           	; vector 0x128
+   478                           psect altvectors
+   479                           	;	not defined
+   480                           	; vector 0x12A
+   481                           psect altvectors
+   482                           	;	not defined
+   483                           	; vector 0x12C
+   484                           psect altvectors
+   485                           	;	not defined
+   486                           	; vector 0x12E
+   487                           psect altvectors
+   488                           	;	not defined
+   489                           	; vector 0x130
+   490                           psect altvectors
+   491                           	;	not defined
+   492                           	; vector 0x132
+   493                           psect altvectors
+   494                           	;	not defined
+   495                           	; vector 0x134
+   496                           psect altvectors
+   497                           	;	not defined
+   498                           	; vector 0x136
+   499                           psect altvectors
+   500                           	;	not defined
+   501                           	; vector 0x138
+   502                           psect altvectors
+   503                           	;	not defined
+   504                           	; vector 0x13A
+   505                           psect altvectors
+   506                           	;	not defined
+   507                           	; vector 0x13C
+   508                           psect altvectors
+   509                           	;	not defined
+   510                           	; vector 0x13E
+   511                           psect altvectors
+   512                           	;	not defined
+   513                           	; vector 0x140
+   514                           psect altvectors
+   515                           	;	not defined
+   516                           	; vector 0x142
+   517                           psect altvectors
+   518                           	;	not defined
+   519                           	; vector 0x144
+   520                           psect altvectors
+   521                           	;	not defined
+   522                           	; vector 0x146
+   523                           psect altvectors
+   524                           	;	not defined
+   525                           	; vector 0x148
+   526                           psect altvectors
+   527                           	;	not defined
+   528                           	; vector 0x14A
+   529                           psect altvectors
+   530                           	;	not defined
+   531                           	; vector 0x14C
+   532                           psect altvectors
+   533                           	;	not defined
+   534                           	; vector 0x14E
+   535                           psect altvectors
+   536                           	;	not defined
+   537                           	; vector 0x150
+   538                           psect altvectors
+   539                           	;	not defined
+   540                           	; vector 0x152
+   541                           psect altvectors
+   542                           	;	not defined
+   543                           	; vector 0x154
+   544                           psect altvectors
+   545                           	;	not defined
+   546                           	; vector 0x156
+   547                           psect altvectors
+   548                           	;	not defined
+   549                           	; vector 0x158
+   550                           psect altvectors
+   551                           	;	not defined
+   552                           	; vector 0x15A
+   553                           psect altvectors
+   554                           	;	not defined
+   555                           	; vector 0x15C
+   556                           psect altvectors
+   557                           	;	not defined
+   558                           	; vector 0x15E
+   559                           psect altvectors
+   560                           	;	not defined
+   561                           	; vector 0x160
+   562                           psect altvectors
+   563                           	;	not defined
+   564                           	; vector 0x162
+   565                           psect altvectors
+   566                           	;	not defined
+   567                           	; vector 0x164
+   568                           psect altvectors
+   569                           	;	not defined
+   570                           	; vector 0x166
+   571                           psect altvectors
+   572                           	;	not defined
+   573                           	; vector 0x168
+   574                           psect altvectors
+   575                           	;	not defined
+   576                           	; vector 0x16A
+   577                           psect altvectors
+   578                           	;	not defined
+   579                           	; vector 0x16C
+   580                           psect altvectors
+   581                           	;	not defined
+   582                           	; vector 0x16E
+   583                           psect altvectors
+   584                           	;	not defined
+   585                           	; vector 0x170
+   586                           psect altvectors
+   587                           	;	not defined
+   588                           	; vector 0x172
+   589                           psect altvectors
+   590                           	;	not defined
+   591                           	; vector 0x174
+   592                           psect altvectors
+   593                           	;	not defined
+   594                           	; vector 0x176
+   595                           psect altvectors
+   596                           	;	not defined
+   597                           	; vector 0x178
+   598                           psect altvectors
+   599                           	;	not defined
+   600                           	; vector 0x17A
+   601                           psect altvectors
+   602                           	;	not defined
+   603                           	; vector 0x17C
+   604                           psect altvectors
+   605                           	;	not defined
+   606                           	; vector 0x17E
+   607                           psect altvectors
+   608                           	;	not defined
+   609                           	; vector 0x180
+   610                           psect altvectors
+   611                           	;	not defined
+   612                           	; vector 0x182
+   613                           psect altvectors
+   614                           	;	not defined
+   615                           	; vector 0x184
+   616                           psect altvectors
+   617                           	;	not defined
+   618                           	; vector 0x186
+   619                           psect altvectors
+   620                           	;	not defined
+   621                           	; vector 0x188
+   622                           psect altvectors
+   623                           	;	not defined
+   624                           	; vector 0x18A
+   625                           psect altvectors
+   626                           	;	not defined
+   627                           	; vector 0x18C
+   628                           psect altvectors
+   629                           	;	not defined
+   630                           	; vector 0x18E
+   631                           psect altvectors
+   632                           	;	not defined
+   633                           	; vector 0x190
+   634                           psect altvectors
+   635                           	;	not defined
+   636                           	; vector 0x192
+   637                           psect altvectors
+   638                           	;	not defined
+   639                           	; vector 0x194
+   640                           psect altvectors
+   641                           	;	not defined
+   642                           	; vector 0x196
+   643                           psect altvectors
+   644                           	;	not defined
+   645                           	; vector 0x198
+   646                           psect altvectors
+   647                           	;	not defined
+   648                           	; vector 0x19A
+   649                           psect altvectors
+   650                           	;	not defined
+   651                           	; vector 0x19C
+   652                           psect altvectors
+   653                           	;	not defined
+   654                           	; vector 0x19E
+   655                           psect altvectors
+   656                           	;	not defined
+   657                           	; vector 0x1A0
+   658                           psect altvectors
+   659                           	;	not defined
+   660                           	; vector 0x1A2
+   661                           psect altvectors
+   662                           	;	not defined
+   663                           	; vector 0x1A4
+   664                           psect altvectors
+   665                           	;	not defined
+   666                           	; vector 0x1A6
+   667                           psect altvectors
+   668                           	;	not defined
+   669                           	; vector 0x1A8
+   670                           psect altvectors
+   671                           	;	not defined
+   672                           	; vector 0x1AA
+   673                           psect altvectors
+   674                           	;	not defined
+   675                           	; vector 0x1AC
+   676                           psect altvectors
+   677                           	;	not defined
+   678                           	; vector 0x1AE
+   679                           psect altvectors
+   680                           	;	not defined
+   681                           	; vector 0x1B0
+   682                           psect altvectors
+   683                           	;	not defined
+   684                           	; vector 0x1B2
+   685                           psect altvectors
+   686                           	;	not defined
+   687                           	; vector 0x1B4
+   688                           psect altvectors
+   689                           	;	not defined
+   690                           	; vector 0x1B6
+   691                           psect altvectors
+   692                           	;	not defined
+   693                           	; vector 0x1B8
+   694                           psect altvectors
+   695                           	;	not defined
+   696                           	; vector 0x1BA
+   697                           psect altvectors
+   698                           	;	not defined
+   699                           	; vector 0x1BC
+   700                           psect altvectors
+   701                           	;	not defined
+   702                           	; vector 0x1BE
+   703                           psect altvectors
+   704                           	;	not defined
+   705                           	; vector 0x1C0
+   706                           psect altvectors
+   707                           	;	not defined
+   708                           	; vector 0x1C2
+   709                           psect altvectors
+   710                           	;	not defined
+   711                           	; vector 0x1C4
+   712                           psect altvectors
+   713                           	;	not defined
+   714                           	; vector 0x1C6
+   715                           psect altvectors
+   716                           	;	not defined
+   717                           	; vector 0x1C8
+   718                           psect altvectors
+   719                           	;	not defined
+   720                           	; vector 0x1CA
+   721                           psect altvectors
+   722                           	;	not defined
+   723                           	; vector 0x1CC
+   724                           psect altvectors
+   725                           	;	not defined
+   726                           	; vector 0x1CE
+   727                           psect altvectors
+   728                           	;	not defined
+   729                           	; vector 0x1D0
+   730                           psect altvectors
+   731                           	;	not defined
+   732                           	; vector 0x1D2
+   733                           psect altvectors
+   734                           	;	not defined
+   735                           	; vector 0x1D4
+   736                           psect altvectors
+   737                           	;	not defined
+   738                           	; vector 0x1D6
+   739                           psect altvectors
+   740                           	;	not defined
+   741                           	; vector 0x1D8
+   742                           psect altvectors
+   743                           	;	not defined
+   744                           	; vector 0x1DA
+   745                           psect altvectors
+   746                           	;	not defined
+   747                           	; vector 0x1DC
+   748                           psect altvectors
+   749                           	;	not defined
+   750                           	; vector 0x1DE
+   751                           psect altvectors
+   752                           	;	not defined
+   753                           	; vector 0x1E0
+   754                           psect altvectors
+   755                           	;	not defined
+   756                           	; vector 0x1E2
+   757                           psect altvectors
+   758                           	;	not defined
+   759                           	; vector 0x1E4
+   760                           psect altvectors
+   761                           	;	not defined
+   762                           	; vector 0x1E6
+   763                           psect altvectors
+   764                           	;	not defined
+   765                           	; vector 0x1E8
+   766                           psect altvectors
+   767                           	;	not defined
+   768                           	; vector 0x1EA
+   769                           psect altvectors
+   770                           	;	not defined
+   771                           	; vector 0x1EC
+   772                           psect altvectors
+   773                           	;	not defined
+   774                           	; vector 0x1EE
+   775                           psect altvectors
+   776                           	;	not defined
+   777                           	; vector 0x1F0
+   778                           psect altvectors
+   779                           	;	not defined
+   780                           	; vector 0x1F2
+   781                           psect altvectors
+   782                           	;	not defined
+   783                           	; vector 0x1F4
+   784                           psect altvectors
+   785                           	;	not defined
+   786                           	; vector 0x1F6
+   787                           psect altvectors
+   788                           	;	not defined
+   789                           	; vector 0x1F8
+   790                           psect altvectors
+   791                           	;	not defined
+   792                           	; vector 0x1FA
+   793                           psect altvectors
+   794                           	;	not defined
+   795                           	; vector 0x1FC
+   796                           psect altvectors
+   797                           	;	not defined
+   798                           	; vector 0x1FE
+   799                           psect altvectors
+   800                           	;	not defined
+   801                           
+   802                           	psect	text,class=CODE,delta=2,reloc=4
+   803                           	psect	idata,class=NEARCODE,delta=1,reloc=4,widt
+                                 h=2
+   804                           	psect	nearidata,class=NEARCODE,delta=1,reloc=4,
+                                 width=2
+   805                           	psect	yidata,class=NEARCODE,delta=1,reloc=4,wid
+                                 th=2
+   806                           	psect	nearyidata,class=NEARCODE,delta=1,reloc=4
+                                 ,width=2
+   807                           	global	start,_main,_exit,__Hbss,__Lbss,__Lbitbs
+                                 s,__Hbitbss
+   808                           	global	reset_vec,__Hybss,__Lybss,__Lybitbss,__H
+                                 ybitbss
+   809                           	global	__Lnearbss,__Lnearbitbss,__Lnearybss,__L
+                                 nearybitbss
+   810                           	global	__Hnearbss,__Hnearbitbss,__Hnearybss,__H
+                                 nearybitbss
+   811                           	global	__Lconst
+   812  000000                     SPLIM	equ	0x20
+   813  000000                     TBLPAG	equ	0x32
+   814                           
+   815                           	psect	reset_vec
+   816  000000                     reset_vec:
+   817  000000  0004828C           	goto	start
+              00000000           
+   818                           
+   819                           	psect	init
+   820  00828C                     start:
+   821  00828C                     _exit:
+   822                           	global	__sp_init,__splim_init
+   823  000000                     	__sp_init	equ	011D0h
+   824  000000                     	__splim_init	equ	047FEh
+   825  00828C  00211D0F           	mov.w	#__sp_init,sp	;initialize the stack point
+                                 er
+   826  00828E  00247FE0           	mov.w	#__splim_init,w0	;initialize the stack li
+                                 mit register
+   827  008290  00880100           	mov.w	w0,SPLIM
+   828                           
+   829                           ;	Map constants into RAM
+   830  000000                     PSVPAG	equ	0x34
+   831  000000                     CORCON	equ	0x44
+   832                           
+   833  008292  00200000           	mov.w #((__Lconst>>16)&0xFF), w0
+   834  008294  008801A0           	mov.w w0, PSVPAG
+   835  008296  00A84044           	bset.b	CORCON,#2
+   836                           
+   837                           ;	Clear nearbss(XDATA) uninitialized variables
+   838  008298  00208000           	mov.w	#__Lnearbss,w0
+   839  00829A  000902D1           	repeat	#(722)-1
+   840  00829C  00EB1800           	clr.w	[w0++]
+   841                           
+   842                           ;	No uninitialized bss(XDATA) variables to clear
+   843                           ;	Copy initialized nearidata into neardata(XDATA
+                                 )
+   844                           	global	__Lnearidata,__Lneardata,__Hnearidata
+   845  00829E  00EF6032           	clr.b	TBLPAG
+   846  0082A0  0020DA41           	mov.w	#__Lneardata,w1
+   847  0082A2  002FBD40           	mov.w	#(__Lnearidata>>1),w0
+   848  0082A4  00090215           	repeat	#(534)-1
+   849  0082A6  00BA18B0           	tblrdl	[w0++],[w1++]
+   850                           
+   851                           ;	No initialized data(XDATA) variables to copy
+   852                           
+   853                           ;	Jump to main()
+   854  0082A8  00049EA8           	goto	_main
+              00000000           
+
+
+HI-TECH Software dsPIC Macro Assembler V9.60PL2                            Page 2
+Symbol Table                                           Wed Jun 19 09:55:58 2013
+
+    __Lnearbss 000800     __Lneardata 000DA4      __Hybitbss 049090  
+   __Lnearybss 009212    __Lnearidata 01F7A8      __Lybitbss 049090  
+ __Lnearbitbss 006D20           SPLIM 000020       __sp_init 0011D0  
+         _main 009EA8           _exit 00828C           start 00828C  
+        CORCON 000044          TBLPAG 000032  __Lnearybitbss 049090  
+        PSVPAG 000034          __Hbss 0011D0          __Lbss 0011D0  
+  __splim_init 0047FE        __Lconst 000400       reset_vec 000000  
+       __Hybss 009212         __Lybss 009212  __Hnearybitbss 049090  
+ __Hnearbitbss 006D20    __Hnearidata 020000     __Hnearybss 009212  
+     __Hbitbss 008E80      __Hnearbss 000DA4       __Lbitbss 008E80  
+

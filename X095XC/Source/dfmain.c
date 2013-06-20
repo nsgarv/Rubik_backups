@@ -329,8 +329,10 @@ int main()
 
    /* Check CPU Configuration Registers */
 
+   /*
    if (!config_check())
       fault_routine(FAULT_SEVERITY, ERROR_CPU_CONFIG, "CPU Config Register");
+   */
 
    /* Check CPU FLASH Memory */
 
