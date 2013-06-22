@@ -1324,7 +1324,7 @@ void gDFDisplyPrintImpedanceGraphicItem(int value, int ok_to_flash,
                                         int imp_fault_cnt, int erase_only)
 {
    int success;
-   int flash = 0;
+//   int flash = 0;
    char text[LIMITED_DISPLAY_CMD_LEN];
    int impedance_bars;
 

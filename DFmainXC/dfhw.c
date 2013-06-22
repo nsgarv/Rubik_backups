@@ -2155,44 +2155,44 @@ U16 ram_test(void)     				     // test memory area above the stack
 	U8 *mp;											// byte pointer
 	U16 *wp;										// word pointer
 													// fill with zero and check
-	for (mp = (U8 *)WREG15; mp < (U8 *)(DMARAM + DMARAMSIZE); mp++) // ~2.8 ms
+	for (mp = (U8 *)WREG14; mp < (U8 *)(DMARAM+DMARAMSIZE); mp++) // ~2.8 ms
 		*mp = 0;
-	for (mp = (U8 *)WREG15; mp < (U8 *)(DMARAM + DMARAMSIZE); mp++)
+	for (mp = (U8 *)WREG14; mp < (U8 *)(DMARAM+DMARAMSIZE); mp++)
 		if (*mp != 0)
 			return ERROR_RAM_HI_SP_1ST_00;
 	KICK_THE_DOG;									// fill with FF and check
-	for (mp = (U8 *)WREG15; mp < (U8 *)(DMARAM + DMARAMSIZE); mp++) // ~2.8 ms
+	for (mp = (U8 *)WREG14; mp < (U8 *)(DMARAM+DMARAMSIZE); mp++) // ~2.8 ms
 		*mp = 0xff;
-	for (mp = (U8 *)WREG15; mp < (U8 *)(DMARAM + DMARAMSIZE); mp++) // ~4.3 ms
+	for (mp = (U8 *)WREG14; mp < (U8 *)(DMARAM+DMARAMSIZE); mp++) // ~4.3 ms
 		if (*mp != 0xff)
 			return ERROR_RAM_HI_SP_FF;
 	KICK_THE_DOG;									// update watchdog
-	for (mp = (U8 *)WREG15; mp < (U8 *)(DMARAM + DMARAMSIZE); mp++) // ~2.8 ms
+	for (mp = (U8 *)WREG14; mp < (U8 *)(DMARAM+DMARAMSIZE); mp++) // ~2.8 ms
 		*mp = 0xaa;
-	for (mp = (U8 *)WREG15; mp < (U8 *)(DMARAM + DMARAMSIZE); mp++)
+	for (mp = (U8 *)WREG14; mp < (U8 *)(DMARAM+DMARAMSIZE); mp++)
 		if (*mp != 0xaa)
 			return ERROR_RAM_HI_SP_AA;
 	KICK_THE_DOG;									// fill with 55 and check
-	for (mp = (U8 *)WREG15; mp < (U8 *)(DMARAM + DMARAMSIZE); mp++) // ~2.8 ms
+	for (mp = (U8 *)WREG14; mp < (U8 *)(DMARAM+DMARAMSIZE); mp++) // ~2.8 ms
 		*mp = 0x55;
-	for (mp = (U8 *)WREG15; mp < (U8 *)(DMARAM + DMARAMSIZE); mp++)
+	for (mp = (U8 *)WREG14; mp < (U8 *)(DMARAM+DMARAMSIZE); mp++)
 		if (*mp != 0x55)
 			return ERROR_RAM_HI_SP_55;
 	KICK_THE_DOG;									// update watchdog
 													// do check with 16-bit words
-	for (wp = (U16 *)WREG15; wp < (U16 *)(DMARAM + DMARAMSIZE); wp++) // fill with address ^ 0xAAAA and check
+	for (wp = (U16 *)WREG14; wp < (U16 *)(DMARAM + DMARAMSIZE); wp++) // fill with address ^ 0xAAAA and check
 		*wp = ((U16)wp  ^ 0xAAAA);
-	for (wp = (U16 *)WREG15; wp < (U16 *)(DMARAM + DMARAMSIZE); wp++)
+	for (wp = (U16 *)WREG14; wp < (U16 *)(DMARAM + DMARAMSIZE); wp++)
 		if (*wp != ((U16)wp ^ 0xAAAA ))
 			return ERROR_RAM_HI_SP_AAAA;
 	KICK_THE_DOG;
-	for (wp = (U16 *)WREG15; wp < (U16 *)(DMARAM + DMARAMSIZE); wp++) // fill with zeroes and check
+	for (wp = (U16 *)WREG14; wp < (U16 *)(DMARAM + DMARAMSIZE); wp++) // fill with zeroes and check
 		*wp = 0;
-	for (wp = (U16 *)WREG15; wp < (U16 *)(DMARAM + DMARAMSIZE); wp++)
+	for (wp = (U16 *)WREG14; wp < (U16 *)(DMARAM + DMARAMSIZE); wp++)
 		if (*wp != 0)
 			return ERROR_RAM_HI_SP_LAST_00;
 	KICK_THE_DOG;									// update watchdog
-	return ram_test1((U8 *)WREG15);					// test below stack pointer
+	return ram_test1((U8 *)WREG14);					// test below stack pointer
 }
 /*****************************************************************************
 * NAME:  ram_test1()
@@ -2217,9 +2217,9 @@ static U16 ram_test1(U8 *top)     			    // test memory area below the stack
 	U16 *wp, *dp;								// word pointers
 	U16 errcode = 0;
 
-	if (top - (U8 *)RAMSTART > (U8 *)(DMARAM + DMARAMSIZE) - (U8 *)WREG15)	// check for space
+	if (top - (U8 *)RAMSTART > (U8 *)(DMARAM + DMARAMSIZE) - (U8 *)WREG14)	// check for space
 		return ERROR_RAM_SPACE;
-	for (wp = (U16 *)RAMSTART, dp = (U16 *)WREG15; wp < (U16 *)top; dp++, wp++) // move data to above stack
+	for (wp = (U16 *)RAMSTART, dp = (U16 *)WREG14; wp < (U16 *)top; dp++, wp++) // move data to above stack
 		*dp = *wp;
 	KICK_THE_DOG;									// update external watchdog
 													// fill with zero and check

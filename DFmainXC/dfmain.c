@@ -308,6 +308,9 @@ static void tonechk(U32 timecount, U32 s_reg);           // generate appropriate
 *****************************************************************************/
 int main()
 {
+
+   //==============11111111
+   /* code declared here used below */
    U16 i, code;
 
    hw_init();
@@ -315,7 +318,7 @@ int main()
 
    /* Turn all of the LEDs on */
 
-   write_LEDs(LED_ON | LED_FAULT | LED_RF | LED_WARNING);
+   write_LEDs((LED_ON | LED_FAULT | LED_RF | LED_WARNING));
    tone(BEEP_INIT);
 
    /* Turn off RF relay and motor relay */
@@ -342,8 +345,10 @@ int main()
 #endif
 
    /* Check RAM */
-
-   if (code = ram_test())
+/* truth operator was =, changed to == */
+   //===============11111111
+   /* code used here but uninitialized and recieved no value */
+   if (code == ram_test())
    {
       fault_routine(WARNING_SEVERITY, code, "RAM");
    }
@@ -530,9 +535,9 @@ static U16 ablate_loop(void)    // loop where the software spends the time in ab
        * NOTE: RFON_LED is on when its value is 1.
        */
 
-      if (((switches & RFON_BUTTONE) && RFON_LED == 0 || !(switches & RFON_BUTTONE) && RFON_LED == 1) &&
-          !ablate_bad_flags &&
-          RFCycleSPS > 0)
+      if ((((switches & RFON_BUTTONE) && (RFON_LED == 0)) || (!(switches & RFON_BUTTONE) && RFON_LED == 1)) &&
+          (!ablate_bad_flags &&
+          RFCycleSPS > 0))
       {
          if ((!ds.rfon) && (SettingsMode == 0))
          {
@@ -557,7 +562,7 @@ static U16 ablate_loop(void)    // loop where the software spends the time in ab
             RFON_LED = 1;
 
             // set flag is stat reg for display
-            s_reg = s_reg & ~(S_MOTOR | S_HI_PRESS | S_RESTART_EXP) | S_RF;
+            s_reg = s_reg & ~(((S_MOTOR | S_HI_PRESS | S_RESTART_EXP)) | S_RF);
 
             /* Turn on the Radiating RF graphic */
 
@@ -890,9 +895,8 @@ static U16 ablate_loop(void)    // loop where the software spends the time in ab
       else
       {
          // RF off, set bits
-         s_reg =
-            s_reg & ~(S_9_5CC_NORF | S_MED_PRESS_NORF | S_HI_PRESS_NORF | S_HY_LIMIT_NORF)
-            | ((s_reg & (S_9_5CC | S_MED_PRESS | S_HI_PRESS | S_HY_LIMIT)) << 1);
+         s_reg = s_reg & ~( (S_9_5CC_NORF | S_MED_PRESS_NORF | S_HI_PRESS_NORF | S_HY_LIMIT_NORF) |
+                (s_reg & (((S_9_5CC | S_MED_PRESS | S_HI_PRESS | S_HY_LIMIT)) << 1)));
       }
 
       #ifdef DEBUG_LEVEL_CHECK // x.093
@@ -918,17 +922,17 @@ static U16 ablate_loop(void)    // loop where the software spends the time in ab
 
       #endif // #ifdef DEBUG_LEVEL_CHECK // x.093
 
-      if ((displaytimer = timecount % SPS) == 0 || displaytimer == (SPS / 2))
+      if (((displaytimer = timecount % SPS) == 0) || (displaytimer == (SPS / 2)))
       {
          display_time(ds.totalrfontime, RFCycleSPS);
       }
-      else if (displaytimer == 4 || displaytimer == (SPS / 2) + 4)
+      else if ((displaytimer == 4) || (displaytimer == (SPS / 2) + 4))
       {
          /* refresh the RF power setting on display */
          gDFDisplyPrintPowerValueTextItem(pwr_setting);
 
-      }
-      else if (displaytimer == 6 || displaytimer == (SPS / 2) + 6 && !(ablate_bad_imp_cnt))
+      } /* && (logical and) takes precedence over || (logical or) */
+      else if ((displaytimer == 6) || ((displaytimer == (SPS / 2) + 6) && !(ablate_bad_imp_cnt)))
       {
          gDFDisplyPrintImpedanceGraphicItem(ds.impedance, isDeviceConnected(),
                                             ablate_bad_imp_cnt, 0);
@@ -1064,11 +1068,11 @@ static U16 ablate_loop(void)    // loop where the software spends the time in ab
                if (ds.temperature2 < 450 && ds.rfon == 1)
                {
                   s_reg = 0;
-                  s_reg = s_reg & ~(S_MOTOR | S_HI_PRESS | S_RESTART_EXP) | S_RF;
+                  s_reg = s_reg & ~((S_MOTOR | S_HI_PRESS | S_RESTART_EXP) | S_RF);
                }
                else if (ds.temperature2 >= 450 && ds.rfon == 1)
                {
-                  s_reg = s_reg & ~(S_MOTOR | S_HI_PRESS | S_RESTART_EXP) | S_MED_PRESS;
+                  s_reg = s_reg & ~((S_MOTOR | S_HI_PRESS | S_RESTART_EXP) | S_MED_PRESS);
                }
 
                break;
@@ -1154,7 +1158,7 @@ static void tonechk(U32 timecount, U32 s_reg)
    for (i = 0; s_reg != 0L; i++)          // find highest priority
       s_reg >>= 1;
 
-   if (i == old_i || gui[i].sound == BEEP_RF && gui[old_i].sound == BEEP_RF)   // if no change
+   if ((i == old_i) || ((gui[i].sound == BEEP_RF) && (gui[old_i].sound == BEEP_RF)))   // if no change
    {
       if (tone(BEEP_CHECK) == 0           // check tone timing
           && ((sound = gui[i].sound) == BEEP_MOTOR || sound == BEEP_RF
